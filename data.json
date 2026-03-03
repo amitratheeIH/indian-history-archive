@@ -67,6 +67,43 @@
     "url": "https://epgp.inflibnet.ac.in/epgpdata/uploads/epgp_content/S000829IC/P001687/M027457/ET/1519190793P12-M27-VijayanagaraEconomy-ET.pdf",
     "alternate_urls": [],
     "featured": false
+  },
+  {
+    "id": "colonial-state-ideology-orientalism",
+    "title": "Colonial State & its Ideology: Orientalism",
+    "description": "An academic module examining Orientalism as an ideological and intellectual foundation of the colonial state in India, analysing British cultural imperialism, early orientalist scholarship, knowledge creation, governance, and debates between Orientalist and Anglicist schools in modern India.",
+    "type": "document",
+    "categories": ["Modern India", "Colonial History", "Intellectual History"],
+    "subcategories": ["Colonial Ideology", "Orientalism", "Cultural Imperialism", "Historiography"],
+    "tags": ["Orientalism", "Colonial State", "British Imperialism", "William Jones", "James Mill", "Asiatic Society", "Edward Said", "Cultural Imperialism", "Anglicism", "Warren Hastings"],
+    "period": { "start_year": 1757, "end_year": 1900, "era": "Colonial India" },
+    "dynasty": "British Rule",
+    "region": ["India", "Bengal", "Calcutta"],
+    "subject": "History",
+    "paper": "History of Modern India (Paper IV)",
+    "module_id": "Paper04/Topic3/Lecture1",
+    "keywords": ["Orientalism", "Colonial Governance", "Cultural Policy", "Asiatic Society", "Westernization", "Imperial Ideology"],
+    "authors": [],
+    "source": "Consortium for Educational Communication (CEC)",
+    "source_type": "UG Curriculum Module",
+    "language": "English",
+    "themes_covered": [
+      "Stages of British Cultural Imperialism",
+      "Orientalist vs Anglicist Debate",
+      "Knowledge and Colonial Governance",
+      "William Jones and Early Orientalism",
+      "James Mill and Westernization",
+      "Edward Said's Critique of Orientalism",
+      "Asiatic Society and Discovery of India's Past",
+      "Epigraphy and Historical Method",
+      "Imperialism and Cultural Superiority"
+    ],
+    "file_format": "PDF",
+    "document_pages": 22,
+    "url": "https://cec.nic.in/cec/sites/default/curriculum/module/History/Paper04/9/content/downloads/script.pdf",
+    "alternate_urls": [],
+    "featured": false
   }
 ]
+
 
