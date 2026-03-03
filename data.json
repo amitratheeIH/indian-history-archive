@@ -550,7 +550,40 @@
   "url": "https://cec.nic.in/cec/sites/default/curriculum/module/History/Paper04/19/content/downloads/script.pdf",
   "alternate_urls": [],
   "featured": false
+},
+  {
+  "id": "changing-landscape-environment-colonial-rule",
+  "title": "Changing Landscape and Environment in India under Colonial Rule",
+  "description": "An academic module analysing the ecological consequences of British colonial expansion in India, focusing on forest policies, revenue-driven land reclamation, deforestation, and the restructuring of rural landscapes.",
+  "type": "document",
+  "categories": ["Modern History", "Environmental History"],
+  "subcategories": ["Forest Policy", "Colonial Resource Extraction", "Deforestation", "Landscape Transformation"],
+  "tags": ["Deforestation", "Teakwood", "British Navy", "Forest Villages", "Revenue Maximization", "Ecological Disruption"],
+  "period": { "start_year": 1765, "end_year": 1947, "era": "Colonial India" },
+  "dynasty": "British Rule",
+  "region": ["India"],
+  "subject": "History",
+  "paper": "History of Modern India (Paper IV)",
+  "module_id": "Paper04/Topic4/LectureF",
+  "keywords": ["Environmental Change", "Forest Exploitation", "Colonial Expansion", "Resource Control"],
+  "authors": [],
+  "source": "Consortium for Educational Communication (CEC)",
+  "source_type": "UG Curriculum Module",
+  "language": "English",
+  "themes_covered": [
+    "Pre-Colonial Forest Regimes",
+    "Colonial Revenue Policies and Land Reclamation",
+    "Teakwood Extraction for British Navy",
+    "Ecological Impact of Colonialism",
+    "Transformation of Tribal and Forest Economies"
+  ],
+  "file_format": "PDF",
+  "document_pages": 16,
+  "url": "https://cec.nic.in/cec/sites/default/curriculum/module/History/Paper04/20/content/downloads/script.pdf",
+  "alternate_urls": [],
+  "featured": false
 }
 ]
+
 
 
