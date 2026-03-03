@@ -27,5 +27,46 @@
     "url": "https://epgp.inflibnet.ac.in/epgpdata/uploads/epgp_content/S000829IC/P001687/M021983/ET/1504074209P12-M11-EconomyundertheSatavahanas-ET.pdf",
     "alternate_urls": [],
     "featured": true
+  },
+  {
+    "id": "vijayanagara-economy",
+    "title": "Vijayanagara Economy",
+    "description": "A comprehensive academic module analysing maritime trade, domestic economy, commercial crops, urban growth, temple-centred commerce and the impact of Portuguese intervention during the fifteenth and sixteenth centuries under the Vijayanagara Empire.",
+    "type": "document",
+    "categories": ["Medieval India", "Economic History", "Indian Culture"],
+    "subcategories": ["South Indian History", "Maritime Trade", "Temple Economy", "Urbanisation", "Domestic Trade"],
+    "tags": ["Vijayanagara", "Hampi", "Krishnadevaraya", "Zamorins", "Calicut", "Pulicat", "Bhatkal", "Malabar Coast", "Coromandel Coast", "Portuguese", "Cheng Ho", "Mapillas"],
+    "period": { "start_year": 1336, "end_year": 1565, "era": "Medieval India" },
+    "dynasty": "Vijayanagara",
+    "region": ["South India", "Karnataka", "Andhra Pradesh", "Tamil Nadu", "Malabar Coast", "Coromandel Coast"],
+    "subject": "Indian Culture",
+    "paper": "Economic History of India (from the Earliest Time to 1707 AD)",
+    "module_id": "IC/EHI/27",
+    "keywords": ["Maritime Trade", "Domestic Economy", "Temple Patronage", "Commercial Crops", "Urban Centres", "Port Cities"],
+    "authors": [
+      { "name": "Prof. P. Bhaskar Reddy", "affiliation": "Sri Venkateswara University, Tirupati", "role": "Principal Investigator" },
+      { "name": "Dr. Swati Biswas", "affiliation": "University of Calcutta", "role": "Content Writer" }
+    ],
+    "source": "e-Pathshala (MHRD / NME-ICT)",
+    "source_type": "Academic Course Module",
+    "language": "English",
+    "themes_covered": [
+      "Maritime Trade in the Indian Ocean",
+      "Role of Zamorins of Calicut",
+      "Arab and Mapilla Merchants",
+      "Chinese Diplomatic and Commercial Contacts",
+      "Portuguese Intervention and Port Control",
+      "Coromandel Coast Trade (Pulicat)",
+      "Domestic Economy and Internal Trade",
+      "Commercial Crop Production",
+      "Urban Space and Capital Economy",
+      "Temple Culture and Commercial Patronage"
+    ],
+    "file_format": "PDF",
+    "document_pages": 8,
+    "url": "https://epgp.inflibnet.ac.in/epgpdata/uploads/epgp_content/S000829IC/P001687/M027457/ET/1519190793P12-M27-VijayanagaraEconomy-ET.pdf",
+    "alternate_urls": [],
+    "featured": false
   }
 ]
+
