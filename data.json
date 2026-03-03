@@ -103,7 +103,41 @@
     "url": "https://cec.nic.in/cec/sites/default/curriculum/module/History/Paper04/9/content/downloads/script.pdf",
     "alternate_urls": [],
     "featured": false
+  },
+  {
+    "id": "colonial-state-ideology-utilitarianism",
+    "title": "Colonial State & its Ideology: Utilitarianism",
+    "description": "An academic module examining Utilitarianism as an ideological foundation of the colonial state in India, analysing the influence of Benthamite thought, James Mill, administrative reforms, legal codification, and the transformation of governance under British rule.",
+    "type": "document",
+    "categories": ["Modern India", "Colonial History", "Intellectual History"],
+    "subcategories": ["Colonial Ideology", "Utilitarianism", "British Administration", "Historiography"],
+    "tags": ["Utilitarianism", "James Mill", "Bentham", "Colonial State", "British Imperialism", "Legal Codification", "Anglicism", "Westernization", "Colonial Governance"],
+    "period": { "start_year": 1757, "end_year": 1900, "era": "Colonial India" },
+    "dynasty": "British Rule",
+    "region": ["India", "Bengal", "Calcutta"],
+    "subject": "History",
+    "paper": "History of Modern India (Paper IV)",
+    "module_id": "Paper04/Topic3/Lecture2",
+    "keywords": ["Utilitarianism", "Colonial Administration", "Legal Reform", "Western Education", "Imperial Ideology"],
+    "authors": [],
+    "source": "Consortium for Educational Communication (CEC)",
+    "source_type": "UG Curriculum Module",
+    "language": "English",
+    "themes_covered": [
+      "Benthamite Philosophy and Colonial Policy",
+      "James Mill and Imperial Thought",
+      "Administrative and Legal Reforms",
+      "Codification of Laws",
+      "Western Education and Anglicist Policy",
+      "Transformation of Colonial Governance"
+    ],
+    "file_format": "PDF",
+    "document_pages": 22,
+    "url": "https://cec.nic.in/cec/sites/default/curriculum/module/History/Paper04/10/content/downloads/script.pdf",
+    "alternate_urls": [],
+    "featured": false
   }
 ]
+
 
 
