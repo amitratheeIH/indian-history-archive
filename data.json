@@ -2,15 +2,20 @@
   {
     "id": "quit-india-1942",
     "title": "Quit India Movement Overview",
-    "description": "Comprehensive overview of the 1942 Quit India Movement led by Mahatma Gandhi, demanding an end to British rule.",
+    "description": "Comprehensive overview of the 1942 Quit India Movement led by Mahatma Gandhi, demanding an end to British rule in India.",
     "type": "article",
-    "category": "Freedom Struggle",
-    "subcategory": "Civil Disobedience Movements",
+    "categories": ["Freedom Struggle", "Colonial Era"],
+    "subcategories": ["Civil Disobedience Movements", "British Raj"],
     "tags": ["Gandhi", "1942", "Independence", "Congress"],
     "year": 1942,
     "author": "National Archives of India",
     "source": "Indian National Congress Records",
+    "language": "English",
     "url": "https://example.com/quit-india",
+    "alternate_urls": [
+      { "label": "Hindi Version", "url": "https://example.com/quit-india-hi", "language": "Hindi" },
+      { "label": "Archive PDF",   "url": "https://example.com/quit-india.pdf", "language": "English" }
+    ],
     "featured": true
   },
   {
@@ -18,13 +23,17 @@
     "title": "Partition of India (1947)",
     "description": "Historical analysis of the partition of British India into the independent nations of India and Pakistan.",
     "type": "article",
-    "category": "Freedom Struggle",
-    "subcategory": "Partition & Independence",
+    "categories": ["Freedom Struggle", "Modern India"],
+    "subcategories": ["Partition & Independence", "Post-Colonial Transition"],
     "tags": ["Partition", "Nehru", "Mountbatten", "Pakistan"],
     "year": 1947,
     "author": "Modern South Asia Studies",
     "source": "University Press",
+    "language": "English",
     "url": "https://example.com/partition-1947",
+    "alternate_urls": [
+      { "label": "Urdu Translation", "url": "https://example.com/partition-ur", "language": "Urdu" }
+    ],
     "featured": false
   },
   {
@@ -32,13 +41,15 @@
     "title": "Non-Cooperation Movement (1920)",
     "description": "Gandhi's first major non-violent mass resistance campaign urging Indians to withdraw cooperation from British colonial rule.",
     "type": "article",
-    "category": "Freedom Struggle",
-    "subcategory": "Civil Disobedience Movements",
+    "categories": ["Freedom Struggle"],
+    "subcategories": ["Civil Disobedience Movements"],
     "tags": ["Gandhi", "Non-Cooperation", "Khilafat", "Congress"],
     "year": 1920,
     "author": "Indian National Congress Records",
     "source": "National Archives of India",
+    "language": "English",
     "url": "https://example.com/non-cooperation",
+    "alternate_urls": [],
     "featured": false
   },
   {
@@ -46,13 +57,17 @@
     "title": "The Salt March (Dandi March, 1930)",
     "description": "Gandhi's 240-mile march to the sea to protest the British salt tax, sparking mass civil disobedience across India.",
     "type": "document",
-    "category": "Freedom Struggle",
-    "subcategory": "Civil Disobedience Movements",
+    "categories": ["Freedom Struggle", "Colonial Era"],
+    "subcategories": ["Civil Disobedience Movements"],
     "tags": ["Gandhi", "Salt Tax", "Civil Disobedience", "Dandi"],
     "year": 1930,
     "author": "Sabarmati Ashram Archive",
     "source": "National Archives of India",
+    "language": "English",
     "url": "https://example.com/dandi-march",
+    "alternate_urls": [
+      { "label": "Gujarati Transcript", "url": "https://example.com/dandi-gu", "language": "Gujarati" }
+    ],
     "featured": true
   },
   {
@@ -60,13 +75,18 @@
     "title": "Mughal Architecture Documentary",
     "description": "Visual documentary exploring Mughal architectural achievements including the Taj Mahal, Red Fort, and Fatehpur Sikri.",
     "type": "video",
-    "category": "Mughal Empire",
-    "subcategory": "Architecture & Arts",
+    "categories": ["Mughal Empire", "Cultural History"],
+    "subcategories": ["Architecture & Arts"],
     "tags": ["Shah Jahan", "Taj Mahal", "Architecture", "Agra"],
     "year": 1653,
     "author": "History Channel",
     "source": "YouTube",
+    "language": "English",
     "url": "https://youtube.com/example",
+    "alternate_urls": [
+      { "label": "Hindi Dubbed",   "url": "https://youtube.com/example-hi", "language": "Hindi" },
+      { "label": "Urdu Subtitles", "url": "https://youtube.com/example-ur", "language": "Urdu" }
+    ],
     "featured": false
   },
   {
@@ -74,13 +94,17 @@
     "title": "Akbar's Administrative Reforms",
     "description": "In-depth study of the revenue, military and religious reforms introduced by Emperor Akbar that unified the Mughal state.",
     "type": "article",
-    "category": "Mughal Empire",
-    "subcategory": "Administration & Governance",
+    "categories": ["Mughal Empire"],
+    "subcategories": ["Administration & Governance", "Military History"],
     "tags": ["Akbar", "Mansabdari", "Din-i-Ilahi", "Todar Mal"],
     "year": 1570,
     "author": "Mughal Studies Quarterly",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/akbar-admin",
+    "alternate_urls": [
+      { "label": "Persian Source Text", "url": "https://example.com/akbar-fa", "language": "Persian" }
+    ],
     "featured": false
   },
   {
@@ -88,13 +112,17 @@
     "title": "First Battle of Panipat (1526)",
     "description": "Detailed account of Babur's decisive victory over Ibrahim Lodi that established Mughal rule in northern India.",
     "type": "article",
-    "category": "Mughal Empire",
-    "subcategory": "Military History",
+    "categories": ["Mughal Empire", "Medieval India"],
+    "subcategories": ["Military History"],
     "tags": ["Babur", "Ibrahim Lodi", "Panipat", "Gunpowder"],
     "year": 1526,
     "author": "Baburnama Translation Project",
     "source": "Historical Research Portal",
+    "language": "English",
     "url": "https://example.com/panipat-1526",
+    "alternate_urls": [
+      { "label": "Original Baburnama (Chagatai)", "url": "https://example.com/baburnama-cg", "language": "Chagatai Turkish" }
+    ],
     "featured": false
   },
   {
@@ -102,13 +130,15 @@
     "title": "Decline of the Mughal Empire",
     "description": "Analysis of the political, economic and military factors that led to the fragmentation of the Mughal Empire in the 18th century.",
     "type": "article",
-    "category": "Mughal Empire",
-    "subcategory": "Decline & Legacy",
+    "categories": ["Mughal Empire", "Colonial Era"],
+    "subcategories": ["Decline & Legacy"],
     "tags": ["Aurangzeb", "Maratha", "Nadir Shah", "18th Century"],
     "year": 1707,
     "author": "Journal of South Asian History",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/mughal-decline",
+    "alternate_urls": [],
     "featured": false
   },
   {
@@ -116,13 +146,18 @@
     "title": "Mauryan Empire Overview",
     "description": "Detailed overview of the Mauryan Empire under Chandragupta Maurya and Ashoka the Great, spanning most of the Indian subcontinent.",
     "type": "article",
-    "category": "Ancient India",
-    "subcategory": "Mauryan Empire",
+    "categories": ["Ancient India"],
+    "subcategories": ["Mauryan Empire"],
     "tags": ["Ashoka", "Chandragupta", "Buddhism", "Pataliputra"],
     "year": -250,
     "author": "Ancient History Journal",
     "source": "Historical Research Portal",
+    "language": "English",
     "url": "https://example.com/mauryan-empire",
+    "alternate_urls": [
+      { "label": "Pali Edicts (Primary Source)", "url": "https://example.com/ashoka-edicts", "language": "Pali" },
+      { "label": "Sanskrit Summary",             "url": "https://example.com/mauryan-sa",    "language": "Sanskrit" }
+    ],
     "featured": true
   },
   {
@@ -130,13 +165,17 @@
     "title": "Indus Valley Civilisation: Seals & Scripts",
     "description": "Analysis of the undeciphered Indus script and pictographic seals found at Mohenjo-daro, Harappa and Lothal.",
     "type": "document",
-    "category": "Ancient India",
-    "subcategory": "Indus Valley Civilisation",
+    "categories": ["Ancient India"],
+    "subcategories": ["Indus Valley Civilisation"],
     "tags": ["Harappa", "Mohenjo-daro", "Indus Script", "Bronze Age"],
     "year": -2500,
     "author": "Archaeological Survey of India",
     "source": "ASI Reports",
+    "language": "English",
     "url": "https://example.com/indus-seals",
+    "alternate_urls": [
+      { "label": "ASI Full Report (PDF)", "url": "https://example.com/asi-indus.pdf", "language": "English" }
+    ],
     "featured": false
   },
   {
@@ -144,13 +183,17 @@
     "title": "The Gupta Golden Age",
     "description": "Exploration of the remarkable advances in science, mathematics, literature and art during the Gupta period.",
     "type": "article",
-    "category": "Ancient India",
-    "subcategory": "Gupta Empire",
+    "categories": ["Ancient India", "Cultural History"],
+    "subcategories": ["Gupta Empire"],
     "tags": ["Chandragupta II", "Kalidasa", "Aryabhata", "Sanskrit"],
     "year": 380,
     "author": "Classical India Studies",
     "source": "University Press",
+    "language": "English",
     "url": "https://example.com/gupta-age",
+    "alternate_urls": [
+      { "label": "Sanskrit Texts Portal", "url": "https://example.com/gupta-sa", "language": "Sanskrit" }
+    ],
     "featured": false
   },
   {
@@ -158,13 +201,18 @@
     "title": "The Vedic Period & Early Settlements",
     "description": "Study of the early Vedic society, its religious texts, pastoral economy and the gradual settlement of the Indo-Gangetic plain.",
     "type": "article",
-    "category": "Ancient India",
-    "subcategory": "Vedic Period",
+    "categories": ["Ancient India"],
+    "subcategories": ["Vedic Period"],
     "tags": ["Vedas", "Rig Veda", "Aryan", "Indo-Gangetic"],
     "year": -1500,
     "author": "Vedic Studies Institute",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/vedic-period",
+    "alternate_urls": [
+      { "label": "Rig Veda (Sanskrit)",  "url": "https://example.com/rigveda-sa",  "language": "Sanskrit" },
+      { "label": "Hindi Commentary",     "url": "https://example.com/vedic-hi",     "language": "Hindi" }
+    ],
     "featured": false
   },
   {
@@ -172,13 +220,18 @@
     "title": "Rise of the Maratha Confederacy",
     "description": "Study of the rise and expansion of Maratha power in 17th–18th century India under Chhatrapati Shivaji Maharaj.",
     "type": "article",
-    "category": "Maratha Empire",
-    "subcategory": "Rise of Shivaji",
+    "categories": ["Maratha Empire"],
+    "subcategories": ["Rise of Shivaji"],
     "tags": ["Shivaji", "Swaraj", "Deccan", "Guerrilla Warfare"],
     "year": 1674,
     "author": "Indian Historical Review",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/maratha-history",
+    "alternate_urls": [
+      { "label": "Marathi Original",    "url": "https://example.com/maratha-mr",  "language": "Marathi" },
+      { "label": "Shivaji Bakhar Text", "url": "https://example.com/bakhar-mr",   "language": "Marathi" }
+    ],
     "featured": false
   },
   {
@@ -186,13 +239,17 @@
     "title": "The Peshwa Era (1713–1818)",
     "description": "Political and military history of the Peshwa-led Maratha Confederacy at the height of its territorial expansion.",
     "type": "article",
-    "category": "Maratha Empire",
-    "subcategory": "Peshwa Era",
+    "categories": ["Maratha Empire"],
+    "subcategories": ["Peshwa Era"],
     "tags": ["Baji Rao I", "Peshwa", "Pune", "Confederacy"],
     "year": 1713,
     "author": "Deccan History Society",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/peshwa-era",
+    "alternate_urls": [
+      { "label": "Marathi Version", "url": "https://example.com/peshwa-mr", "language": "Marathi" }
+    ],
     "featured": false
   },
   {
@@ -200,13 +257,18 @@
     "title": "The Constitution of India (1950)",
     "description": "Original constitutional document of the Republic of India, adopted by the Constituent Assembly on 26 January 1950.",
     "type": "document",
-    "category": "Post-Independence India",
-    "subcategory": "Constitution & Law",
+    "categories": ["Post-Independence India", "Modern India"],
+    "subcategories": ["Constitution & Law"],
     "tags": ["Constitution", "Dr. B.R. Ambedkar", "Republic", "Fundamental Rights"],
     "year": 1950,
     "author": "Constituent Assembly of India",
     "source": "Government of India",
+    "language": "English",
     "url": "https://example.com/constitution",
+    "alternate_urls": [
+      { "label": "Hindi Official Text",      "url": "https://example.com/constitution-hi", "language": "Hindi" },
+      { "label": "Full PDF (Ministry of Law)", "url": "https://example.com/constitution.pdf", "language": "English" }
+    ],
     "featured": true
   },
   {
@@ -214,13 +276,17 @@
     "title": "Indo-Pakistan War & Bangladesh Liberation (1971)",
     "description": "Military and diplomatic history of the 1971 war resulting in the creation of Bangladesh and a decisive Indian victory.",
     "type": "article",
-    "category": "Post-Independence India",
-    "subcategory": "Wars & Conflicts",
+    "categories": ["Post-Independence India", "Modern India"],
+    "subcategories": ["Wars & Conflicts"],
     "tags": ["Indira Gandhi", "Bangladesh", "Mukti Bahini", "1971"],
     "year": 1971,
     "author": "South Asia Military History",
     "source": "University Press",
+    "language": "English",
     "url": "https://example.com/1971-war",
+    "alternate_urls": [
+      { "label": "Bengali Account",  "url": "https://example.com/1971-bn",  "language": "Bengali" }
+    ],
     "featured": false
   },
   {
@@ -228,13 +294,17 @@
     "title": "The Green Revolution in India",
     "description": "How the introduction of high-yield crop varieties transformed Indian agriculture and ended famine in the 1960s–70s.",
     "type": "article",
-    "category": "Post-Independence India",
-    "subcategory": "Economic & Social Policy",
+    "categories": ["Post-Independence India"],
+    "subcategories": ["Economic & Social Policy"],
     "tags": ["M.S. Swaminathan", "Punjab", "Agriculture", "Food Security"],
     "year": 1965,
     "author": "Indian Council of Agricultural Research",
     "source": "ICAR Publications",
+    "language": "English",
     "url": "https://example.com/green-revolution",
+    "alternate_urls": [
+      { "label": "Punjabi Version",  "url": "https://example.com/green-pa", "language": "Punjabi" }
+    ],
     "featured": false
   },
   {
@@ -242,13 +312,18 @@
     "title": "The Bhakti Movement",
     "description": "The devotional reform movement that swept medieval India, challenging caste hierarchies and orthodox religious practice.",
     "type": "article",
-    "category": "Cultural History",
-    "subcategory": "Religion & Philosophy",
+    "categories": ["Cultural History", "Medieval India"],
+    "subcategories": ["Religion & Philosophy"],
     "tags": ["Kabir", "Mirabai", "Tukaram", "Devotion"],
     "year": 1200,
     "author": "Indian Philosophy Journal",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/bhakti-movement",
+    "alternate_urls": [
+      { "label": "Kabir Dohe (Hindi)", "url": "https://example.com/kabir-hi",   "language": "Hindi" },
+      { "label": "Tukaram Abhangas (Marathi)", "url": "https://example.com/tukaram-mr", "language": "Marathi" }
+    ],
     "featured": false
   },
   {
@@ -256,13 +331,17 @@
     "title": "Architecture of the Delhi Sultanate",
     "description": "Survey of the distinctive Indo-Islamic architectural styles that emerged under the five dynasties of the Delhi Sultanate.",
     "type": "article",
-    "category": "Medieval India",
-    "subcategory": "Delhi Sultanate",
+    "categories": ["Medieval India"],
+    "subcategories": ["Delhi Sultanate", "Architecture & Arts"],
     "tags": ["Qutb Minar", "Indo-Islamic", "Tughlaq", "Khalji"],
     "year": 1200,
     "author": "Islamic Architecture Review",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/delhi-sultanate-arch",
+    "alternate_urls": [
+      { "label": "Persian Inscriptions",  "url": "https://example.com/sultanate-fa", "language": "Persian" }
+    ],
     "featured": false
   },
   {
@@ -270,13 +349,18 @@
     "title": "Aryabhata & Indian Mathematics",
     "description": "The groundbreaking contributions of Aryabhata to algebra, trigonometry, place value and astronomy in the 5th century CE.",
     "type": "article",
-    "category": "Science & Knowledge",
-    "subcategory": "Mathematics & Astronomy",
+    "categories": ["Science & Knowledge", "Ancient India"],
+    "subcategories": ["Mathematics & Astronomy"],
     "tags": ["Aryabhata", "Zero", "Trigonometry", "Astronomy"],
     "year": 499,
     "author": "Indian Science History Society",
     "source": "Academic Publication",
+    "language": "English",
     "url": "https://example.com/aryabhata",
+    "alternate_urls": [
+      { "label": "Aryabhatiya (Sanskrit Original)", "url": "https://example.com/aryabhatiya-sa", "language": "Sanskrit" },
+      { "label": "Hindi Translation",               "url": "https://example.com/aryabhata-hi",   "language": "Hindi" }
+    ],
     "featured": false
   }
 ]
