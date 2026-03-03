@@ -18,7 +18,7 @@
         <div class="header-brand">
           <span class="header-eyebrow">Open Scholarly Repository · Est. 2026</span>
           <h1 class="header-title">Indian History <em>Archive</em></h1>
-          <p class="header-sub">A curated collection of documents, articles, and records spanning the breadth of Indian civilisation, designed to support academic research and competitive examination preparation.</p>
+          <p class="header-sub">A curated collection of documents, articles and records spanning the breadth of Indian civilisation</p>
         </div>
         <div class="header-stats">
           <div class="stat-box"><span class="stat-n" id="docCount">0</span><span class="stat-l">Resources</span></div>
@@ -33,7 +33,7 @@
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
           </svg>
-          <input type="text" id="search" placeholder="Search by title, tag, author, subcategory…" autocomplete="off">
+          <input type="text" id="search" placeholder="Search title, tag, author, dynasty, region, keyword…" autocomplete="off">
           <button class="search-clear" id="searchClear" title="Clear search">✕</button>
         </div>
       </div>
@@ -43,77 +43,91 @@
   <!-- ══ PAGE BODY ══ -->
   <div class="page-body">
 
-    <!-- ── LEFT SIDEBAR FILTERS ── -->
+    <!-- ── SIDEBAR FILTERS ── -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <span class="sidebar-title">Filters</span>
         <button id="clearAllBtn" class="clear-all-btn">Clear All</button>
       </div>
 
-      <!-- Active filter chips -->
+      <!-- Active chips -->
       <div id="activeFilters" class="active-filters"></div>
 
       <!-- Resource Type -->
-      <div class="filter-group" id="fg-type">
-        <div class="filter-group-head" data-target="fl-type">
-          <span>Resource Type</span>
-          <span class="fg-arrow">▾</span>
-        </div>
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Resource Type</span><span class="fg-arrow">▾</span></div>
         <div class="filter-group-body" id="fl-type">
           <div id="typeList" class="checkbox-list"></div>
         </div>
       </div>
 
       <!-- Category -->
-      <div class="filter-group" id="fg-cat">
-        <div class="filter-group-head" data-target="fl-cat">
-          <span>Category</span>
-          <span class="fg-arrow">▾</span>
-        </div>
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Category</span><span class="fg-arrow">▾</span></div>
         <div class="filter-group-body" id="fl-cat">
           <div id="catList" class="checkbox-list"></div>
         </div>
       </div>
 
       <!-- Subcategory -->
-      <div class="filter-group" id="fg-sub">
-        <div class="filter-group-head" data-target="fl-sub">
-          <span>Subcategory</span>
-          <span class="fg-arrow">▾</span>
-        </div>
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Subcategory</span><span class="fg-arrow">▾</span></div>
         <div class="filter-group-body" id="fl-sub">
           <div id="subList" class="checkbox-list"></div>
         </div>
       </div>
 
       <!-- Era / Time Period -->
-      <div class="filter-group" id="fg-era">
-        <div class="filter-group-head" data-target="fl-era">
-          <span>Era / Time Period</span>
-          <span class="fg-arrow">▾</span>
-        </div>
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Era / Time Period</span><span class="fg-arrow">▾</span></div>
         <div class="filter-group-body" id="fl-era">
           <div id="eraList" class="checkbox-list"></div>
         </div>
       </div>
 
-      <!-- Language -->
-      <div class="filter-group" id="fg-lang">
-        <div class="filter-group-head" data-target="fl-lang">
-          <span>Language</span>
-          <span class="fg-arrow">▾</span>
+      <!-- Dynasty -->
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Dynasty / Empire</span><span class="fg-arrow">▾</span></div>
+        <div class="filter-group-body" id="fl-dynasty">
+          <div id="dynastyList" class="checkbox-list"></div>
         </div>
+      </div>
+
+      <!-- Region -->
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Region</span><span class="fg-arrow">▾</span></div>
+        <div class="filter-group-body" id="fl-region">
+          <div id="regionList" class="checkbox-list"></div>
+        </div>
+      </div>
+
+      <!-- Source Type -->
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Source Type</span><span class="fg-arrow">▾</span></div>
+        <div class="filter-group-body" id="fl-srctype">
+          <div id="srcTypeList" class="checkbox-list"></div>
+        </div>
+      </div>
+
+      <!-- Language -->
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Language</span><span class="fg-arrow">▾</span></div>
         <div class="filter-group-body" id="fl-lang">
           <div id="langList" class="checkbox-list"></div>
         </div>
       </div>
 
-      <!-- Tags -->
-      <div class="filter-group" id="fg-tags">
-        <div class="filter-group-head" data-target="fl-tags">
-          <span>Tags</span>
-          <span class="fg-arrow">▾</span>
+      <!-- File Format -->
+      <div class="filter-group">
+        <div class="filter-group-head"><span>File Format</span><span class="fg-arrow">▾</span></div>
+        <div class="filter-group-body" id="fl-format">
+          <div id="formatList" class="checkbox-list"></div>
         </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="filter-group">
+        <div class="filter-group-head"><span>Tags</span><span class="fg-arrow">▾</span></div>
         <div class="filter-group-body" id="fl-tags">
           <input type="text" id="tagSearch" class="filter-search-input" placeholder="Search tags…">
           <div id="tagList" class="checkbox-list tag-list"></div>
@@ -124,15 +138,13 @@
     <!-- ── MAIN CONTENT ── -->
     <main class="main-content">
 
-      <!-- Results header -->
       <div class="results-header">
         <div class="results-info">
           <span id="resultsLabel" class="results-label">All Resources</span>
           <span id="resultsCount" class="results-count"></span>
         </div>
         <div class="results-controls">
-          <label class="per-page-label">
-            Per page:
+          <label class="per-page-label">Per page:
             <select id="perPage" class="per-page-select">
               <option value="15">15</option>
               <option value="20" selected>20</option>
@@ -152,17 +164,15 @@
       <!-- Category row view (default) -->
       <div id="categoryView"></div>
 
-      <!-- Flat paginated view (when filters/search active) -->
+      <!-- Flat paginated view -->
       <div id="flatView" style="display:none">
         <div id="flatGrid" class="flat-grid"></div>
-        <!-- Pagination -->
         <div class="pagination" id="pagination"></div>
       </div>
 
     </main>
   </div>
 
-  <!-- ══ FOOTER ══ -->
   <footer class="footer">
     <p>© 2026 <strong>Indian History Archive</strong> · All records preserved for public scholarship</p>
   </footer>
@@ -170,4 +180,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
