@@ -1,72 +1,149 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indian History Archive</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f9;
+  color: #333;
+}
 
-<!-- HERO -->
-<section class="hero">
-    <h1>Indian History Archive</h1>
-    <p>A curated open archive of Indian historical resources</p>
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg,#1e3c72,#2a5298);
+  color: white;
+}
 
-    <div class="stats">
-        <div>
-            <h2 id="docCount">0</h2>
-            <p>Resources</p>
-        </div>
-        <div>
-            <h2 id="categoryCount">0</h2>
-            <p>Categories</p>
-        </div>
-        <div>
-            <h2 id="tagCount">0</h2>
-            <p>Tags</p>
-        </div>
-    </div>
+.hero h1 {
+  font-size: 2.5rem;
+}
 
-    <div class="hero-actions">
-        <a href="#browse" class="primary-btn">Browse Archive</a>
-        <a href="data.json" download class="secondary-btn">Download Data</a>
-    </div>
-</section>
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem 0;
+}
 
-<!-- FEATURED -->
-<section id="featuredSection" class="featured-section">
-    <h2>Featured Resources</h2>
-    <div id="featuredContainer" class="grid"></div>
-</section>
+.hero-actions a {
+  padding: 0.8rem 1.4rem;
+  border-radius: 8px;
+  margin: 0.5rem;
+  text-decoration: none;
+}
 
-<!-- BROWSE -->
-<section id="browse" class="browse-section">
-    <h2>Explore Archive</h2>
+.primary-btn {
+  background: white;
+  color: #2a5298;
+}
 
-    <input type="text" id="search" placeholder="Search by title, tag, category...">
+.secondary-btn {
+  background: rgba(255,255,255,0.3);
+  color: white;
+}
 
-    <div class="filters">
-        <select id="typeFilter">
-            <option value="">All Types</option>
-        </select>
-    </div>
+/* SECTIONS */
+.browse-section, .featured-section {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
 
-    <h3>Filter by Categories</h3>
-    <div id="categoryContainer" class="tag-container"></div>
+/* INPUTS */
+input, select {
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin: 0.5rem;
+  min-width: 250px;
+}
 
-    <h3>Filter by Tags</h3>
-    <div id="tagContainer" class="tag-container"></div>
+/* TAG CHIPS */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
 
-    <button id="clearFilters" class="clear-btn">Clear Filters</button>
+.tag-chip {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  background: #e0e7ff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
 
-    <div id="results" class="grid"></div>
-</section>
+.tag-chip:hover {
+  background: #c7d2fe;
+}
 
-<footer>
-    <p>© 2026 Indian History Archive</p>
-</footer>
+.tag-chip.active {
+  background: #2a5298;
+  color: white;
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+/* BUTTON */
+.clear-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 1.5rem;
+  padding-top: 1rem;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.badge {
+  display: inline-block;
+  background: #eee;
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  margin-right: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.card a {
+  text-decoration: none;
+  background: #2a5298;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 0.8rem;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background: #222;
+  color: white;
+  margin-top: 3rem;
+}
