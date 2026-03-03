@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indian History Archive</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Indian History Archive</h1>
+    <p>A curated open archive of Indian historical resources</p>
+
+    <div class="stats">
+        <div>
+            <h2 id="docCount">0</h2>
+            <p>Resources</p>
+        </div>
+        <div>
+            <h2 id="categoryCount">0</h2>
+            <p>Categories</p>
+        </div>
+        <div>
+            <h2 id="tagCount">0</h2>
+            <p>Tags</p>
+        </div>
+    </div>
+
+    <div class="hero-actions">
+        <a href="#browse" class="primary-btn">Browse Archive</a>
+        <a href="data.json" download class="secondary-btn">Download Data</a>
+    </div>
+</section>
+
+<!-- FEATURED -->
+<section id="featuredSection" class="featured-section">
+    <h2>Featured Resources</h2>
+    <div id="featuredContainer" class="grid"></div>
+</section>
+
+<!-- BROWSE -->
+<section id="browse" class="browse-section">
+    <h2>Explore Archive</h2>
+
+    <input type="text" id="search" placeholder="Search by title, tag, category...">
+
+    <div class="filters">
+        <select id="typeFilter">
+            <option value="">All Types</option>
+        </select>
+    </div>
+
+    <h3>Filter by Categories</h3>
+    <div id="categoryContainer" class="tag-container"></div>
+
+    <h3>Filter by Tags</h3>
+    <div id="tagContainer" class="tag-container"></div>
+
+    <button id="clearFilters" class="clear-btn">Clear Filters</button>
+
+    <div id="results" class="grid"></div>
+</section>
+
+<footer>
+    <p>© 2026 Indian History Archive</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
