@@ -580,6 +580,11 @@ body {
   background: var(--tag-bg); color: var(--tag-color);
   border-radius: 20px;
 }
+.tag-more {
+  background: transparent;
+  color: var(--faint);
+  border: 1px solid var(--border);
+}
 
 /* Alternate URLs */
 .card-alt-urls {
