@@ -327,7 +327,7 @@ function render() {
 }
 
 /* ════════════════════════════════════════
-   CATEGORY ROW VIEW
+   CATEGORY VIEW — one section per category, no subcategory grouping
 ════════════════════════════════════════ */
 function showCategoryView() {
   flatView.style.display     = 'none';
@@ -343,7 +343,9 @@ function showCategoryView() {
     const catItems = applySort(allData.filter(d => d.categories.includes(cat)));
     if (!catItems.length) return;
 
-    const subCats = [...new Set(catItems.flatMap(d => d.subcategories))];
+    const showMore = catItems.length > PREVIEW_PER_SUBCAT;
+    const preview  = catItems.slice(0, PREVIEW_PER_SUBCAT);
+    const rest     = catItems.slice(PREVIEW_PER_SUBCAT);
 
     const block = document.createElement('div');
     block.className = 'main-cat';
@@ -352,41 +354,19 @@ function showCategoryView() {
         <span class="main-cat-title">${cat}</span>
         <span class="main-cat-badge">${catItems.length} record${catItems.length !== 1 ? 's':''}</span>
         <span class="main-cat-line"></span>
+        ${showMore ? `<button class="view-all-btn" data-expanded="false">View All →</button>` : ''}
       </div>
-      <div class="sub-rows"></div>`;
+      <div class="card-strip">
+        ${preview.map((item, i) => cardHTML(item, i * 0.05, false)).join('')}
+        ${rest.map((item, i)    => cardHTML(item, i * 0.05, false).replace('class="card"','class="card hidden"')).join('')}
+      </div>`;
 
-    const subRowsWrap = block.querySelector('.sub-rows');
-
-    subCats.forEach(sub => {
-      const subItems = catItems.filter(d => d.subcategories.includes(sub));
-      const showMore = subItems.length > PREVIEW_PER_SUBCAT;
-      const preview  = subItems.slice(0, PREVIEW_PER_SUBCAT);
-      const rest     = subItems.slice(PREVIEW_PER_SUBCAT);
-
-      const subRow = document.createElement('div');
-      subRow.className = 'sub-row';
-      subRow.innerHTML = `
-        <div class="sub-row-head">
-          <div class="sub-row-left">
-            <span class="sub-row-title">${sub}</span>
-            <span class="sub-row-meta">${subItems.length} record${subItems.length !== 1 ? 's':''}</span>
-          </div>
-          ${showMore ? `<button class="view-all-btn" data-expanded="false">View All →</button>` : ''}
-        </div>
-        <div class="card-strip">
-          ${preview.map((item, i) => cardHTML(item, i * 0.05, false)).join('')}
-          ${rest.map((item, i)    => cardHTML(item, i * 0.05, false).replace('class="card"','class="card hidden"')).join('')}
-        </div>`;
-
-      const btn = subRow.querySelector('.view-all-btn');
-      if (btn) btn.addEventListener('click', () => {
-        const exp = btn.dataset.expanded === 'true';
-        subRow.querySelectorAll('.card.hidden').forEach(c => c.classList.toggle('hidden', exp));
-        btn.dataset.expanded = String(!exp);
-        btn.textContent = exp ? 'View All →' : 'Show Less ↑';
-      });
-
-      subRowsWrap.appendChild(subRow);
+    const btn = block.querySelector('.view-all-btn');
+    if (btn) btn.addEventListener('click', () => {
+      const exp = btn.dataset.expanded === 'true';
+      block.querySelectorAll('.card.hidden').forEach(c => c.classList.toggle('hidden', exp));
+      btn.dataset.expanded = String(!exp);
+      btn.textContent = exp ? 'View All →' : 'Show Less ↑';
     });
 
     categoryView.appendChild(block);
@@ -481,7 +461,6 @@ function cardHTML(item, delay = 0, showBreadcrumb = false) {
     item.period?.era ? `<span class="card-pill pill-era">${item.period.era}</span>` : '',
     ...(item.region||[]).slice(0,2).map(r=>`<span class="card-pill pill-region">📍 ${r}</span>`),
     item.source_type ? `<span class="card-pill pill-src">${item.source_type}</span>` : '',
-    item.document_pages ? `<span class="card-pill pill-pages">${item.document_pages} pp</span>` : '',
   ].filter(Boolean).join('');
 
   /* ── Alternate URLs ── */
@@ -526,7 +505,8 @@ function cardHTML(item, delay = 0, showBreadcrumb = false) {
       ${pills     ? `<div class="card-pills">${pills}</div>` : ''}
 
       <div class="card-tags">
-        ${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+        ${item.tags.slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}
+        ${item.tags.length > 4 ? `<span class="tag tag-more">+${item.tags.length - 4}</span>` : ''}
       </div>
 
       ${altHTML}
