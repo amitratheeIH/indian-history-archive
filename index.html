@@ -11,7 +11,6 @@
 </head>
 <body>
 
-  <!-- ══ HEADER ══ -->
   <header class="header">
     <div class="header-inner">
       <div class="header-top">
@@ -21,126 +20,116 @@
           <p class="header-sub">A curated collection of documents, articles and records spanning the breadth of Indian civilisation</p>
         </div>
         <div class="header-stats">
-          <div class="stat-box"><span class="stat-n" id="docCount">0</span><span class="stat-l">Resources</span></div>
+          <div class="stat-box">
+            <span class="stat-n" id="docCount">0</span>
+            <span class="stat-n-of" id="docTotal"></span>
+            <span class="stat-l">Resources</span>
+          </div>
           <div class="stat-box"><span class="stat-n" id="categoryCount">0</span><span class="stat-l">Categories</span></div>
           <div class="stat-box"><span class="stat-n" id="tagCount">0</span><span class="stat-l">Tags</span></div>
         </div>
       </div>
 
-      <!-- Search bar -->
       <div class="search-row">
         <div class="search-wrap">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
           </svg>
-          <input type="text" id="search" placeholder="Search title, tag, author, dynasty, region, keyword…" autocomplete="off">
-          <button class="search-clear" id="searchClear" title="Clear search">✕</button>
+          <input type="text" id="search" placeholder="Search the archive…" autocomplete="off">
+          <button class="search-clear" id="searchClear" title="Clear">✕</button>
         </div>
+        <select id="searchScope" class="search-scope">
+          <option value="all">All fields</option>
+          <option value="title">Title only</option>
+          <option value="tags">Tags only</option>
+          <option value="author">Author only</option>
+          <option value="keywords">Keywords only</option>
+        </select>
+        <button class="mobile-filter-btn" id="mobileFilterBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="15" height="15"><path stroke-linecap="round" d="M3 4h18M7 8h10M10 12h4"/></svg>
+          Filters <span id="mobileFilterCount" class="mobile-filter-count" style="display:none"></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- ══ PAGE BODY ══ -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <div class="page-body">
 
-    <!-- ── SIDEBAR FILTERS ── -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <span class="sidebar-title">Filters</span>
-        <button id="clearAllBtn" class="clear-all-btn">Clear All</button>
+        <div class="sidebar-header-right">
+          <button id="clearAllBtn" class="clear-all-btn">Clear All</button>
+          <button class="sidebar-close" id="sidebarClose">✕</button>
+        </div>
       </div>
 
-      <!-- Active chips -->
       <div id="activeFilters" class="active-filters"></div>
 
-      <!-- Resource Type -->
+      <!-- Primary filters — always visible -->
       <div class="filter-group">
-        <div class="filter-group-head"><span>Resource Type</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-type">
-          <div id="typeList" class="checkbox-list"></div>
-        </div>
+        <div class="filter-group-head"><span>Resource Type</span><span class="fg-arrow open">▾</span></div>
+        <div class="filter-group-body" id="fl-type"><div id="typeList" class="checkbox-list"></div></div>
       </div>
 
-      <!-- Category -->
       <div class="filter-group">
-        <div class="filter-group-head"><span>Category</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-cat">
-          <div id="catList" class="checkbox-list"></div>
-        </div>
+        <div class="filter-group-head"><span>Category</span><span class="fg-arrow open">▾</span></div>
+        <div class="filter-group-body" id="fl-cat"><div id="catList" class="checkbox-list"></div></div>
       </div>
 
-      <!-- Subcategory -->
       <div class="filter-group">
-        <div class="filter-group-head"><span>Subcategory</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-sub">
-          <div id="subList" class="checkbox-list"></div>
-        </div>
+        <div class="filter-group-head"><span>Era / Time Period</span><span class="fg-arrow open">▾</span></div>
+        <div class="filter-group-body" id="fl-era"><div id="eraList" class="checkbox-list"></div></div>
       </div>
 
-      <!-- Era / Time Period -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>Era / Time Period</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-era">
-          <div id="eraList" class="checkbox-list"></div>
-        </div>
-      </div>
+      <!-- Advanced toggle -->
+      <button class="advanced-toggle-btn" id="advancedToggleBtn">
+        Advanced Filters <span class="fg-arrow" id="advArrow">▾</span>
+        <span class="adv-count" id="advCount" style="display:none"></span>
+      </button>
 
-      <!-- Dynasty -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>Dynasty / Empire</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-dynasty">
-          <div id="dynastyList" class="checkbox-list"></div>
+      <div class="advanced-body" id="advancedBody">
+        <div class="filter-group">
+          <div class="filter-group-head"><span>Subcategory</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-sub"><div id="subList" class="checkbox-list"></div></div>
         </div>
-      </div>
-
-      <!-- Region -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>Region</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-region">
-          <div id="regionList" class="checkbox-list"></div>
+        <div class="filter-group">
+          <div class="filter-group-head"><span>Dynasty / Empire</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-dynasty"><div id="dynastyList" class="checkbox-list"></div></div>
         </div>
-      </div>
-
-      <!-- Source Type -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>Source Type</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-srctype">
-          <div id="srcTypeList" class="checkbox-list"></div>
+        <div class="filter-group">
+          <div class="filter-group-head"><span>Region</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-region"><div id="regionList" class="checkbox-list"></div></div>
         </div>
-      </div>
-
-      <!-- Language -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>Language</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-lang">
-          <div id="langList" class="checkbox-list"></div>
+        <div class="filter-group">
+          <div class="filter-group-head"><span>Source Type</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-srctype"><div id="srcTypeList" class="checkbox-list"></div></div>
         </div>
-      </div>
-
-      <!-- File Format -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>File Format</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-format">
-          <div id="formatList" class="checkbox-list"></div>
+        <div class="filter-group">
+          <div class="filter-group-head"><span>Language</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-lang"><div id="langList" class="checkbox-list"></div></div>
         </div>
-      </div>
-
-      <!-- Tags -->
-      <div class="filter-group">
-        <div class="filter-group-head"><span>Tags</span><span class="fg-arrow">▾</span></div>
-        <div class="filter-group-body" id="fl-tags">
-          <input type="text" id="tagSearch" class="filter-search-input" placeholder="Search tags…">
-          <div id="tagList" class="checkbox-list tag-list"></div>
+        <div class="filter-group">
+          <div class="filter-group-head"><span>File Format</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-format"><div id="formatList" class="checkbox-list"></div></div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-head"><span>Tags</span><span class="fg-arrow">▾</span></div>
+          <div class="filter-group-body collapsed" id="fl-tags">
+            <input type="text" id="tagSearch" class="filter-search-input" placeholder="Search tags…">
+            <div id="tagList" class="checkbox-list tag-list"></div>
+          </div>
         </div>
       </div>
     </aside>
 
-    <!-- ── MAIN CONTENT ── -->
     <main class="main-content">
-
       <div class="results-header">
         <div class="results-info">
-          <span id="resultsLabel" class="results-label">All Resources</span>
+          <button class="back-to-browse" id="backToBrowse" style="display:none">← Browse</button>
+          <span id="resultsLabel" class="results-label">Browse Archive</span>
           <span id="resultsCount" class="results-count"></span>
         </div>
         <div class="results-controls">
@@ -161,20 +150,28 @@
         </div>
       </div>
 
-      <!-- Category row view (default) -->
       <div id="categoryView"></div>
 
-      <!-- Flat paginated view -->
       <div id="flatView" style="display:none">
         <div id="flatGrid" class="flat-grid"></div>
         <div class="pagination" id="pagination"></div>
       </div>
-
     </main>
   </div>
 
   <footer class="footer">
-    <p>© 2026 <strong>Indian History Archive</strong> · All records preserved for public scholarship</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Indian History Archive</strong>
+        <span>An open-access repository for the study of Indian history</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:contact@example.com">Contact</a>
+        <a href="#">Submit a Resource</a>
+      </div>
+      <div class="footer-copy">© 2026 Indian History Archive · All records preserved for public scholarship</div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
