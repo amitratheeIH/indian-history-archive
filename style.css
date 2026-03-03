@@ -274,20 +274,33 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--i
   min-width: 70px;
 }
 
-/* Tags — wrap onto two lines if needed */
-.td-tags { min-width: 120px; max-width: 180px; }
+/* Replace your existing .td-tags rules with these */
+
+.td-tags {
+  min-width: 0;
+  max-width: 160px;
+  overflow: hidden;
+}
+
 .td-tags-inner {
   display: flex;
   flex-wrap: wrap;
   gap: .22rem;
+  overflow: hidden;
 }
+
 .td-tags .tag {
   font-size: .63rem;
   padding: .1rem .38rem;
   white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .td-tags .tag-more {
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Open button — always fully visible */
@@ -392,6 +405,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--i
   color: rgba(255,255,255,.75);
   font-family: 'JetBrains Mono', monospace;
 }
+
 
 
 
