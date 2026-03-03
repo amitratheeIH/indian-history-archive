@@ -279,14 +279,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--i
 .td-tags {
   min-width: 0;
   max-width: 160px;
-  overflow: hidden;
+/*  overflow: hidden;
 }
 
 .td-tags-inner {
   display: flex;
   flex-wrap: wrap;
   gap: .22rem;
-  overflow: hidden;
+  /*overflow: hidden;
 }
 
 .td-tags .tag {
@@ -405,6 +405,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--i
   color: rgba(255,255,255,.75);
   font-family: 'JetBrains Mono', monospace;
 }
+
 
 
 
