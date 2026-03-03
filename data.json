@@ -2,7 +2,7 @@
   {
     "id": "quit-india-1942",
     "title": "Quit India Movement Overview",
-    "description": "Comprehensive overview of the 1942 Quit India Movement led by Mahatma Gandhi.",
+    "description": "Comprehensive overview of the 1942 Quit India Movement led by Mahatma Gandhi, demanding an end to British rule.",
     "type": "article",
     "category": "Freedom Struggle",
     "subcategory": "Civil Disobedience Movements",
@@ -16,7 +16,7 @@
   {
     "id": "partition-of-india-1947",
     "title": "Partition of India (1947)",
-    "description": "Historical analysis of the partition of British India into India and Pakistan.",
+    "description": "Historical analysis of the partition of British India into the independent nations of India and Pakistan.",
     "type": "article",
     "category": "Freedom Struggle",
     "subcategory": "Partition & Independence",
@@ -30,7 +30,7 @@
   {
     "id": "non-cooperation-movement",
     "title": "Non-Cooperation Movement (1920)",
-    "description": "Gandhi's first major non-violent resistance campaign against British colonial rule.",
+    "description": "Gandhi's first major non-violent mass resistance campaign urging Indians to withdraw cooperation from British colonial rule.",
     "type": "article",
     "category": "Freedom Struggle",
     "subcategory": "Civil Disobedience Movements",
@@ -42,9 +42,23 @@
     "featured": false
   },
   {
+    "id": "dandi-march-1930",
+    "title": "The Salt March (Dandi March, 1930)",
+    "description": "Gandhi's 240-mile march to the sea to protest the British salt tax, sparking mass civil disobedience across India.",
+    "type": "document",
+    "category": "Freedom Struggle",
+    "subcategory": "Civil Disobedience Movements",
+    "tags": ["Gandhi", "Salt Tax", "Civil Disobedience", "Dandi"],
+    "year": 1930,
+    "author": "Sabarmati Ashram Archive",
+    "source": "National Archives of India",
+    "url": "https://example.com/dandi-march",
+    "featured": true
+  },
+  {
     "id": "mughal-architecture-doc",
     "title": "Mughal Architecture Documentary",
-    "description": "Visual documentary exploring Mughal architectural achievements including the Taj Mahal and Red Fort.",
+    "description": "Visual documentary exploring Mughal architectural achievements including the Taj Mahal, Red Fort, and Fatehpur Sikri.",
     "type": "video",
     "category": "Mughal Empire",
     "subcategory": "Architecture & Arts",
@@ -58,7 +72,7 @@
   {
     "id": "akbar-administration",
     "title": "Akbar's Administrative Reforms",
-    "description": "Study of the revenue, military and religious reforms introduced by Emperor Akbar.",
+    "description": "In-depth study of the revenue, military and religious reforms introduced by Emperor Akbar that unified the Mughal state.",
     "type": "article",
     "category": "Mughal Empire",
     "subcategory": "Administration & Governance",
@@ -72,7 +86,7 @@
   {
     "id": "battle-of-panipat-1526",
     "title": "First Battle of Panipat (1526)",
-    "description": "Account of Babur's decisive victory over Ibrahim Lodi that established Mughal rule in India.",
+    "description": "Detailed account of Babur's decisive victory over Ibrahim Lodi that established Mughal rule in northern India.",
     "type": "article",
     "category": "Mughal Empire",
     "subcategory": "Military History",
@@ -84,9 +98,23 @@
     "featured": false
   },
   {
+    "id": "mughal-decline",
+    "title": "Decline of the Mughal Empire",
+    "description": "Analysis of the political, economic and military factors that led to the fragmentation of the Mughal Empire in the 18th century.",
+    "type": "article",
+    "category": "Mughal Empire",
+    "subcategory": "Decline & Legacy",
+    "tags": ["Aurangzeb", "Maratha", "Nadir Shah", "18th Century"],
+    "year": 1707,
+    "author": "Journal of South Asian History",
+    "source": "Academic Publication",
+    "url": "https://example.com/mughal-decline",
+    "featured": false
+  },
+  {
     "id": "mauryan-empire-overview",
     "title": "Mauryan Empire Overview",
-    "description": "Detailed overview of the Mauryan Empire under Chandragupta Maurya and Ashoka the Great.",
+    "description": "Detailed overview of the Mauryan Empire under Chandragupta Maurya and Ashoka the Great, spanning most of the Indian subcontinent.",
     "type": "article",
     "category": "Ancient India",
     "subcategory": "Mauryan Empire",
@@ -100,7 +128,7 @@
   {
     "id": "indus-valley-seals",
     "title": "Indus Valley Civilisation: Seals & Scripts",
-    "description": "Analysis of the undeciphered Indus script and pictographic seals found at Mohenjo-daro and Harappa.",
+    "description": "Analysis of the undeciphered Indus script and pictographic seals found at Mohenjo-daro, Harappa and Lothal.",
     "type": "document",
     "category": "Ancient India",
     "subcategory": "Indus Valley Civilisation",
@@ -114,7 +142,7 @@
   {
     "id": "gupta-golden-age",
     "title": "The Gupta Golden Age",
-    "description": "Exploration of science, mathematics, literature and art during the Gupta period.",
+    "description": "Exploration of the remarkable advances in science, mathematics, literature and art during the Gupta period.",
     "type": "article",
     "category": "Ancient India",
     "subcategory": "Gupta Empire",
@@ -126,13 +154,27 @@
     "featured": false
   },
   {
+    "id": "vedic-period",
+    "title": "The Vedic Period & Early Settlements",
+    "description": "Study of the early Vedic society, its religious texts, pastoral economy and the gradual settlement of the Indo-Gangetic plain.",
+    "type": "article",
+    "category": "Ancient India",
+    "subcategory": "Vedic Period",
+    "tags": ["Vedas", "Rig Veda", "Aryan", "Indo-Gangetic"],
+    "year": -1500,
+    "author": "Vedic Studies Institute",
+    "source": "Academic Publication",
+    "url": "https://example.com/vedic-period",
+    "featured": false
+  },
+  {
     "id": "maratha-confederacy-history",
     "title": "Rise of the Maratha Confederacy",
-    "description": "Study of the rise and expansion of Maratha power in 17th–18th century India.",
+    "description": "Study of the rise and expansion of Maratha power in 17th–18th century India under Chhatrapati Shivaji Maharaj.",
     "type": "article",
     "category": "Maratha Empire",
     "subcategory": "Rise of Shivaji",
-    "tags": ["Shivaji", "Peshwa", "Deccan", "Swaraj"],
+    "tags": ["Shivaji", "Swaraj", "Deccan", "Guerrilla Warfare"],
     "year": 1674,
     "author": "Indian Historical Review",
     "source": "Academic Publication",
@@ -142,7 +184,7 @@
   {
     "id": "peshwa-era",
     "title": "The Peshwa Era (1713–1818)",
-    "description": "Political and military history of the Peshwa-led Maratha Confederacy at its peak expansion.",
+    "description": "Political and military history of the Peshwa-led Maratha Confederacy at the height of its territorial expansion.",
     "type": "article",
     "category": "Maratha Empire",
     "subcategory": "Peshwa Era",
@@ -156,7 +198,7 @@
   {
     "id": "constitution-of-india-1950",
     "title": "The Constitution of India (1950)",
-    "description": "Original constitutional document of India adopted on 26 January 1950.",
+    "description": "Original constitutional document of the Republic of India, adopted by the Constituent Assembly on 26 January 1950.",
     "type": "document",
     "category": "Post-Independence India",
     "subcategory": "Constitution & Law",
@@ -170,7 +212,7 @@
   {
     "id": "indo-pak-war-1971",
     "title": "Indo-Pakistan War & Bangladesh Liberation (1971)",
-    "description": "Military and diplomatic history of the 1971 war leading to the creation of Bangladesh.",
+    "description": "Military and diplomatic history of the 1971 war resulting in the creation of Bangladesh and a decisive Indian victory.",
     "type": "article",
     "category": "Post-Independence India",
     "subcategory": "Wars & Conflicts",
@@ -184,7 +226,7 @@
   {
     "id": "green-revolution-india",
     "title": "The Green Revolution in India",
-    "description": "How the introduction of high-yield crops transformed Indian agriculture in the 1960s–70s.",
+    "description": "How the introduction of high-yield crop varieties transformed Indian agriculture and ended famine in the 1960s–70s.",
     "type": "article",
     "category": "Post-Independence India",
     "subcategory": "Economic & Social Policy",
@@ -198,7 +240,7 @@
   {
     "id": "bhakti-movement",
     "title": "The Bhakti Movement",
-    "description": "Devotional reform movement that swept medieval India, challenging caste and orthodoxy.",
+    "description": "The devotional reform movement that swept medieval India, challenging caste hierarchies and orthodox religious practice.",
     "type": "article",
     "category": "Cultural History",
     "subcategory": "Religion & Philosophy",
@@ -210,23 +252,9 @@
     "featured": false
   },
   {
-    "id": "classical-dance-forms",
-    "title": "Classical Dance Forms of India",
-    "description": "Overview of Bharatanatyam, Kathak, Odissi and other classical dance traditions and their historical roots.",
-    "type": "video",
-    "category": "Cultural History",
-    "subcategory": "Performing Arts",
-    "tags": ["Bharatanatyam", "Kathak", "Odissi", "Natyashastra"],
-    "year": 1950,
-    "author": "Sangeet Natak Akademi",
-    "source": "YouTube",
-    "url": "https://example.com/classical-dance",
-    "featured": false
-  },
-  {
     "id": "delhi-sultanate-architecture",
     "title": "Architecture of the Delhi Sultanate",
-    "description": "Survey of Indo-Islamic architectural styles developed under the five dynasties of the Delhi Sultanate.",
+    "description": "Survey of the distinctive Indo-Islamic architectural styles that emerged under the five dynasties of the Delhi Sultanate.",
     "type": "article",
     "category": "Medieval India",
     "subcategory": "Delhi Sultanate",
@@ -238,23 +266,9 @@
     "featured": false
   },
   {
-    "id": "vijayanagara-empire",
-    "title": "The Vijayanagara Empire",
-    "description": "Rise and fall of the last great Hindu empire of South India, centred at Hampi.",
-    "type": "article",
-    "category": "Medieval India",
-    "subcategory": "Vijayanagara & Deccan",
-    "tags": ["Hampi", "Krishnadevaraya", "Deccan", "South India"],
-    "year": 1336,
-    "author": "South Indian History Society",
-    "source": "Historical Research Portal",
-    "url": "https://example.com/vijayanagara",
-    "featured": false
-  },
-  {
     "id": "aryabhata-mathematics",
     "title": "Aryabhata & Indian Mathematics",
-    "description": "Contributions of Aryabhata to algebra, trigonometry and astronomy in the 5th century.",
+    "description": "The groundbreaking contributions of Aryabhata to algebra, trigonometry, place value and astronomy in the 5th century CE.",
     "type": "article",
     "category": "Science & Knowledge",
     "subcategory": "Mathematics & Astronomy",
@@ -263,20 +277,6 @@
     "author": "Indian Science History Society",
     "source": "Academic Publication",
     "url": "https://example.com/aryabhata",
-    "featured": false
-  },
-  {
-    "id": "ayurveda-charaka",
-    "title": "Charaka Samhita & Ayurvedic Medicine",
-    "description": "Ancient Indian medical treatise and its influence on the development of Ayurveda.",
-    "type": "document",
-    "category": "Science & Knowledge",
-    "subcategory": "Medicine & Ayurveda",
-    "tags": ["Charaka", "Ayurveda", "Medicine", "Sanskrit"],
-    "year": -300,
-    "author": "History of Medicine Institute",
-    "source": "Academic Publication",
-    "url": "https://example.com/charaka-samhita",
     "featured": false
   }
 ]
