@@ -206,7 +206,12 @@
 
   <script src="script.js"></script>
  <script>
-  fetch('https://api.counterapi.dev/v2/amit-rathees-team-3125/first-counter-3125')
+  // Step 1: Increment the counter
+  fetch('https://api.counterapi.dev/v2/amit-rathees-team-3125/first-counter-3125/up')
+    .then(() => {
+      // Step 2: Fetch the updated value
+      return fetch('https://api.counterapi.dev/v2/amit-rathees-team-3125/first-counter-3125');
+    })
     .then(r => r.json())
     .then(d => {
       const el = document.getElementById('visitorCount');
@@ -219,6 +224,7 @@
 </script>
 </body>
 </html>
+
 
 
 
