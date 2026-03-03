@@ -205,16 +205,21 @@
   </footer>
 
   <script src="script.js"></script>
-  <script>
-  fetch('https://api.counterapi.dev/v2/amit-rathees-team-3125/first-counter-3125/up')
+ <script>
+  fetch('https://api.counterapi.dev/v2/amit-rathees-team-3125/first-counter-3125')
     .then(r => r.json())
     .then(d => {
       const el = document.getElementById('visitorCount');
-      if (el) el.textContent = d.count.toLocaleString();
+      if (el) el.textContent = d.data.up_count.toLocaleString();
+    })
+    .catch(() => {
+      const el = document.getElementById('visitorCount');
+      if (el) el.textContent = '—';
     });
 </script>
 </body>
 </html>
+
 
 
 
