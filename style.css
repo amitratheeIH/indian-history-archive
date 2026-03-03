@@ -720,3 +720,72 @@ body {
   .header-stats { flex-wrap: wrap; }
   .stat-box { border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); flex: 1; min-width: 80px; }
 }
+
+/* ════════════════════════════════════════
+   IMPROVEMENTS — appended
+════════════════════════════════════════ */
+
+/* ── Featured card ── */
+.card-featured {
+  border-color: var(--blue-300);
+  background: linear-gradient(160deg, #f8fbff 0%, #ffffff 60%);
+}
+.card-featured::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue-400), var(--blue-600));
+}
+.card-featured-badge {
+  position: absolute; top: .65rem; right: .65rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .52rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  background: var(--blue-500); color: #fff;
+  border-radius: 3px; padding: .13rem .45rem;
+}
+
+/* ── "Filter ↗" button on category header ── */
+.cat-filter-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem; letter-spacing: .08em;
+  color: var(--muted); background: none;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: .24rem .6rem; cursor: pointer;
+  transition: all .15s; white-space: nowrap;
+}
+.cat-filter-btn:hover {
+  border-color: var(--accent); color: var(--accent);
+  background: var(--blue-50);
+}
+
+/* ── Empty state suggestions ── */
+.empty-suggestions {
+  margin-top: 1.6rem;
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: .5rem;
+}
+.empty-suggest-label {
+  width: 100%; font-size: .78rem;
+  color: var(--faint); margin-bottom: .2rem;
+}
+.empty-cat-btn {
+  font-size: .8rem; font-weight: 500;
+  color: var(--accent);
+  background: var(--blue-50);
+  border: 1.5px solid var(--blue-200);
+  border-radius: 20px; padding: .32rem .9rem;
+  cursor: pointer; transition: all .15s;
+}
+.empty-cat-btn:hover {
+  background: var(--blue-100);
+  border-color: var(--accent);
+}
+
+/* ── Remove card-fmt (redundant with alt URLs) ── */
+.card-fmt { display: none; }
+
+/* ── Dim zero-count filter options ── */
+.checkbox-list label[style*="opacity"] {
+  pointer-events: none;
+}
