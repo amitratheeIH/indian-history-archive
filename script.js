@@ -75,21 +75,70 @@ const sortSelect      = $('sortSelect');
 const tagSearchEl     = $('tagSearch');
 
 /* ════════════════════════════════════════
-   INIT
+   INIT — two-phase loader
+   Phase 1: fetch data/index.json (lightweight, always)
+   Phase 2: fetch data/<slug>.json chunks (on demand, cached)
 ════════════════════════════════════════ */
-fetch('data.json')
-  .then(r => r.json())
-  .then(data => {
-    allData = data;
 
-    $('docCount').textContent      = data.length;
-    $('categoryCount').textContent = [...new Set(data.flatMap(d => d.categories))].length;
-    $('tagCount').textContent      = [...new Set(data.flatMap(d => d.tags))].length;
+let chunkMap    = {};          // { "Ancient India": "ancient-india.json" }
+const chunkCache = {};         // { "ancient-india.json": [...records] }
+let   useChunks = false;       // true once index.json is confirmed available
 
-    buildFilters(data);
+// Try split architecture first; fall back to single data.json
+fetch('data/index.json')
+  .then(r => { if (!r.ok) throw new Error('no index'); return r.json(); })
+  .then(payload => {
+    useChunks = true;
+    chunkMap  = payload._meta?.chunks ?? {};
+    allData   = payload.records;
+
+    $('docCount').textContent      = payload._meta?.total ?? allData.length;
+    $('categoryCount').textContent = [...new Set(allData.flatMap(d => d.categories))].length;
+    $('tagCount').textContent      = [...new Set(allData.flatMap(d => d.tags))].length;
+
+    buildFilters(allData);
     bindEvents();
-    loadStateFromURL();   // ← restore URL state on load
+    loadStateFromURL();
+  })
+  .catch(() => {
+    // Fallback: load monolithic data.json
+    fetch('data.json')
+      .then(r => r.json())
+      .then(data => {
+        allData = data;
+
+        $('docCount').textContent      = data.length;
+        $('categoryCount').textContent = [...new Set(data.flatMap(d => d.categories))].length;
+        $('tagCount').textContent      = [...new Set(data.flatMap(d => d.tags))].length;
+
+        buildFilters(data);
+        bindEvents();
+        loadStateFromURL();
+      });
   });
+
+/* ── Fetch a category chunk (with in-memory cache) ── */
+async function loadChunk(category) {
+  if (!useChunks) return;
+  const filename = chunkMap[category];
+  if (!filename || chunkCache[filename]) return;
+  try {
+    const res  = await fetch(`data/${filename}`);
+    const full = await res.json();
+    chunkCache[filename] = full;
+    // Merge full records into allData, replacing the index-slim versions
+    const ids = new Set(full.map(r => r.id));
+    allData = [...allData.filter(r => !ids.has(r.id)), ...full];
+  } catch (e) {
+    console.warn('Chunk load failed:', filename, e);
+  }
+}
+
+/* ── Preload chunks for all active category filters ── */
+async function preloadActiveChunks() {
+  if (!useChunks || !AF.categories.size) return;
+  await Promise.all([...AF.categories].map(cat => loadChunk(cat)));
+}
 
 /* ════════════════════════════════════════
    URL STATE — push/pop
@@ -407,7 +456,11 @@ function applySort(data) {
    RENDER
 ════════════════════════════════════════ */
 function render() {
-  isFiltered() ? showFlatView() : showCategoryView();
+  if (isFiltered()) {
+    showFlatView();   // async — chunk preload happens inside
+  } else {
+    showCategoryView();
+  }
 }
 
 /* ════════════════════════════════════════
@@ -471,7 +524,10 @@ function showCategoryView() {
 /* ════════════════════════════════════════
    FLAT PAGINATED VIEW
 ════════════════════════════════════════ */
-function showFlatView() {
+async function showFlatView() {
+  // Preload full records for any category filters before rendering
+  await preloadActiveChunks();
+
   categoryView.style.display = 'none';
   flatView.style.display     = '';
 
