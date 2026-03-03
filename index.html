@@ -1,72 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indian History Archive</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian History Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-    <h1>Indian History Archive</h1>
-    <p>A curated open archive of Indian historical resources</p>
-
-    <div class="stats">
-        <div>
-            <h2 id="docCount">0</h2>
-            <p>Resources</p>
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-top">
+        <div class="header-brand">
+          <span class="header-eyebrow">Open Scholarly Repository · Est. 2026</span>
+          <h1 class="header-title">Indian History <em>Archive</em></h1>
+          <p class="header-sub">A curated collection of documents, articles and records spanning the breadth of Indian civilisation</p>
         </div>
-        <div>
-            <h2 id="categoryCount">0</h2>
-            <p>Categories</p>
+        <div class="header-stats">
+          <div class="stat-box"><span class="stat-n" id="docCount">0</span><span class="stat-l">Resources</span></div>
+          <div class="stat-box"><span class="stat-n" id="categoryCount">0</span><span class="stat-l">Categories</span></div>
+          <div class="stat-box"><span class="stat-n" id="tagCount">0</span><span class="stat-l">Tags</span></div>
         </div>
-        <div>
-            <h2 id="tagCount">0</h2>
-            <p>Tags</p>
+      </div>
+
+      <!-- Search bar -->
+      <div class="search-row">
+        <div class="search-wrap">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input type="text" id="search" placeholder="Search by title, tag, author, subcategory…" autocomplete="off">
+          <button class="search-clear" id="searchClear" title="Clear search">✕</button>
         </div>
+      </div>
     </div>
+  </header>
 
-    <div class="hero-actions">
-        <a href="#browse" class="primary-btn">Browse Archive</a>
-        <a href="data.json" download class="secondary-btn">Download Data</a>
-    </div>
-</section>
+  <!-- ══ PAGE BODY ══ -->
+  <div class="page-body">
 
-<!-- FEATURED -->
-<section id="featuredSection" class="featured-section">
-    <h2>Featured Resources</h2>
-    <div id="featuredContainer" class="grid"></div>
-</section>
+    <!-- ── LEFT SIDEBAR FILTERS ── -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-title">Filters</span>
+        <button id="clearAllBtn" class="clear-all-btn">Clear All</button>
+      </div>
 
-<!-- BROWSE -->
-<section id="browse" class="browse-section">
-    <h2>Explore Archive</h2>
+      <!-- Active filter chips -->
+      <div id="activeFilters" class="active-filters"></div>
 
-    <input type="text" id="search" placeholder="Search by title, tag, category...">
+      <!-- Resource Type -->
+      <div class="filter-group" id="fg-type">
+        <div class="filter-group-head" data-target="fl-type">
+          <span>Resource Type</span>
+          <span class="fg-arrow">▾</span>
+        </div>
+        <div class="filter-group-body" id="fl-type">
+          <div id="typeList" class="checkbox-list"></div>
+        </div>
+      </div>
 
-    <div class="filters">
-        <select id="typeFilter">
-            <option value="">All Types</option>
-        </select>
-    </div>
+      <!-- Category -->
+      <div class="filter-group" id="fg-cat">
+        <div class="filter-group-head" data-target="fl-cat">
+          <span>Category</span>
+          <span class="fg-arrow">▾</span>
+        </div>
+        <div class="filter-group-body" id="fl-cat">
+          <div id="catList" class="checkbox-list"></div>
+        </div>
+      </div>
 
-    <h3>Filter by Categories</h3>
-    <div id="categoryContainer" class="tag-container"></div>
+      <!-- Subcategory -->
+      <div class="filter-group" id="fg-sub">
+        <div class="filter-group-head" data-target="fl-sub">
+          <span>Subcategory</span>
+          <span class="fg-arrow">▾</span>
+        </div>
+        <div class="filter-group-body" id="fl-sub">
+          <div id="subList" class="checkbox-list"></div>
+        </div>
+      </div>
 
-    <h3>Filter by Tags</h3>
-    <div id="tagContainer" class="tag-container"></div>
+      <!-- Era / Time Period -->
+      <div class="filter-group" id="fg-era">
+        <div class="filter-group-head" data-target="fl-era">
+          <span>Era / Time Period</span>
+          <span class="fg-arrow">▾</span>
+        </div>
+        <div class="filter-group-body" id="fl-era">
+          <div id="eraList" class="checkbox-list"></div>
+        </div>
+      </div>
 
-    <button id="clearFilters" class="clear-btn">Clear Filters</button>
+      <!-- Tags -->
+      <div class="filter-group" id="fg-tags">
+        <div class="filter-group-head" data-target="fl-tags">
+          <span>Tags</span>
+          <span class="fg-arrow">▾</span>
+        </div>
+        <div class="filter-group-body" id="fl-tags">
+          <input type="text" id="tagSearch" class="filter-search-input" placeholder="Search tags…">
+          <div id="tagList" class="checkbox-list tag-list"></div>
+        </div>
+      </div>
+    </aside>
 
-    <div id="results" class="grid"></div>
-</section>
+    <!-- ── MAIN CONTENT ── -->
+    <main class="main-content">
 
-<footer>
-    <p>© 2026 Indian History Archive</p>
-</footer>
+      <!-- Results header -->
+      <div class="results-header">
+        <div class="results-info">
+          <span id="resultsLabel" class="results-label">All Resources</span>
+          <span id="resultsCount" class="results-count"></span>
+        </div>
+        <div class="results-controls">
+          <label class="per-page-label">
+            Per page:
+            <select id="perPage" class="per-page-select">
+              <option value="15">15</option>
+              <option value="20" selected>20</option>
+              <option value="30">30</option>
+            </select>
+          </label>
+          <select id="sortSelect" class="sort-select">
+            <option value="default">Default order</option>
+            <option value="year-asc">Year: Oldest first</option>
+            <option value="year-desc">Year: Newest first</option>
+            <option value="title-asc">Title: A → Z</option>
+            <option value="title-desc">Title: Z → A</option>
+          </select>
+        </div>
+      </div>
 
-<script src="script.js"></script>
+      <!-- Category row view (default) -->
+      <div id="categoryView"></div>
+
+      <!-- Flat paginated view (when filters/search active) -->
+      <div id="flatView" style="display:none">
+        <div id="flatGrid" class="flat-grid"></div>
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <p>© 2026 <strong>Indian History Archive</strong> · All records preserved for public scholarship</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
