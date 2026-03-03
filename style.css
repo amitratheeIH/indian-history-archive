@@ -668,16 +668,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Subcat breadcrumb (shown in flat view) */
-.card-breadcrumb {
-  font-size: .72rem;
-  color: var(--blue-600);
-  background: var(--blue-50);
-  border-radius: 3px;
-  padding: .18rem .5rem;
-  margin-bottom: .65rem;
-  display: inline-block;
-}
+/* breadcrumb styles moved below card-link */
 
 .card-tags {
   display: flex;
@@ -693,6 +684,90 @@ body {
   background: var(--tag-bg);
   color: var(--tag-color);
   border-radius: 20px;
+}
+
+/* card-top right side — language + year */
+.card-top { align-items: flex-start; }
+.card-top-right {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-shrink: 0;
+}
+
+/* Language badge */
+.card-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .56rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: #f0f7ff;
+  color: var(--blue-600);
+  border: 1px solid var(--blue-200);
+  border-radius: 3px;
+  padding: .15rem .42rem;
+}
+
+/* Multi-value breadcrumb row */
+.card-breadcrumb-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  margin-bottom: .65rem;
+}
+
+.card-breadcrumb {
+  font-size: .72rem;
+  color: var(--blue-600);
+  background: var(--blue-50);
+  border-radius: 3px;
+  padding: .18rem .5rem;
+  display: inline-block;
+}
+
+.card-breadcrumb-sub {
+  color: var(--muted);
+  background: #f8faff;
+  border: 1px solid var(--border);
+}
+
+/* Alternate URLs */
+.card-alt-urls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+  margin-bottom: .75rem;
+  padding: .55rem .7rem;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--radius-sm);
+}
+
+.card-alt-label {
+  font-size: .68rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  margin-right: .1rem;
+}
+
+.card-alt-link {
+  font-size: .7rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  background: white;
+  border: 1px solid var(--blue-200);
+  border-radius: 3px;
+  padding: .14rem .48rem;
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+
+.card-alt-link:hover {
+  background: var(--blue-100);
+  border-color: var(--blue-400);
 }
 
 .card-link {
