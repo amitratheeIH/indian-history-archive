@@ -4,18 +4,35 @@
 
 const PREVIEW_PER_SUBCAT = 3;
 
-/* ── Era definitions ── */
+/* ── Era buckets — auto-derived from period.start_year ── */
 const ERAS = [
-  { label: 'Ancient (before 600 CE)',   test: y => y < 600 },
-  { label: 'Early Medieval (600–1200)', test: y => y >= 600  && y < 1200 },
-  { label: 'Medieval (1200–1526)',      test: y => y >= 1200 && y < 1526 },
-  { label: 'Early Modern (1526–1757)',  test: y => y >= 1526 && y < 1757 },
-  { label: 'Colonial Era (1757–1947)',  test: y => y >= 1757 && y < 1947 },
-  { label: 'Post-Independence (1947+)', test: y => y >= 1947 },
+  { label: 'Prehistoric / Proto-Historic (before 600 BCE)', test: y => y < -600 },
+  { label: 'Ancient (600 BCE – 600 CE)',                    test: y => y >= -600 && y < 600  },
+  { label: 'Early Medieval (600 – 1200 CE)',                test: y => y >= 600  && y < 1200 },
+  { label: 'Medieval (1200 – 1526 CE)',                     test: y => y >= 1200 && y < 1526 },
+  { label: 'Early Modern (1526 – 1757 CE)',                 test: y => y >= 1526 && y < 1757 },
+  { label: 'Colonial Era (1757 – 1947 CE)',                 test: y => y >= 1757 && y < 1947 },
+  { label: 'Post-Independence (1947 CE onwards)',           test: y => y >= 1947 },
 ];
 
-function getEra(year) {
-  return ERAS.find(e => e.test(year))?.label ?? 'Unknown';
+function getEra(item) {
+  // Prefer period.era string if provided, otherwise derive from start_year
+  const y = item.period?.start_year ?? item.year ?? 0;
+  return ERAS.find(e => e.test(y))?.label ?? 'Unknown';
+}
+
+/* ── Year display helper ── */
+function yearLabel(y) {
+  if (y === null || y === undefined) return '';
+  return y < 0 ? `${Math.abs(y)} BCE` : `${y} CE`;
+}
+
+function periodLabel(item) {
+  if (!item.period) return '';
+  const s = item.period.start_year;
+  const e = item.period.end_year;
+  if (s === e) return yearLabel(s);
+  return `${yearLabel(s)} – ${yearLabel(e)}`;
 }
 
 /* ════════════════════════════════════════
@@ -26,14 +43,18 @@ let currentPage = 1;
 let perPage     = 20;
 let sortMode    = 'default';
 
-const activeFilters = {
-  search:        '',
-  types:         new Set(),
-  categories:    new Set(),
-  subcategories: new Set(),
-  eras:          new Set(),
-  tags:          new Set(),
-  languages:     new Set(),
+const AF = {               // activeFilters
+  search:       '',
+  types:        new Set(),
+  categories:   new Set(),
+  subcategories:new Set(),
+  eras:         new Set(),
+  dynasties:    new Set(),
+  regions:      new Set(),
+  sourceTypes:  new Set(),
+  languages:    new Set(),
+  formats:      new Set(),
+  tags:         new Set(),
 };
 
 /* ════════════════════════════════════════
@@ -41,25 +62,19 @@ const activeFilters = {
 ════════════════════════════════════════ */
 const $  = id => document.getElementById(id);
 
-const searchEl       = $('search');
-const searchClear    = $('searchClear');
-const clearAllBtn    = $('clearAllBtn');
-const typeListEl     = $('typeList');
-const catListEl      = $('catList');
-const subListEl      = $('subList');
-const eraListEl      = $('eraList');
-const tagListEl      = $('tagList');
-const langListEl     = $('langList');
-const tagSearchEl    = $('tagSearch');
+const searchEl        = $('search');
+const searchClear     = $('searchClear');
+const clearAllBtn     = $('clearAllBtn');
 const activeFiltersEl = $('activeFilters');
-const categoryView   = $('categoryView');
-const flatView       = $('flatView');
-const flatGrid       = $('flatGrid');
-const paginationEl   = $('pagination');
-const resultsCount   = $('resultsCount');
-const resultsLabel   = $('resultsLabel');
-const perPageSelect  = $('perPage');
-const sortSelect     = $('sortSelect');
+const categoryView    = $('categoryView');
+const flatView        = $('flatView');
+const flatGrid        = $('flatGrid');
+const paginationEl    = $('pagination');
+const resultsCount    = $('resultsCount');
+const resultsLabel    = $('resultsLabel');
+const perPageSelect   = $('perPage');
+const sortSelect      = $('sortSelect');
+const tagSearchEl     = $('tagSearch');
 
 /* ════════════════════════════════════════
    INIT
@@ -69,12 +84,9 @@ fetch('data.json')
   .then(data => {
     allData = data;
 
-    // Stats
     $('docCount').textContent      = data.length;
-    const allCats = [...new Set(data.flatMap(d => d.categories))];
-    const allTags = [...new Set(data.flatMap(d => d.tags))];
-    $('categoryCount').textContent = allCats.length;
-    $('tagCount').textContent      = allTags.length;
+    $('categoryCount').textContent = [...new Set(data.flatMap(d => d.categories))].length;
+    $('tagCount').textContent      = [...new Set(data.flatMap(d => d.tags))].length;
 
     buildFilters(data);
     bindEvents();
@@ -82,62 +94,86 @@ fetch('data.json')
   });
 
 /* ════════════════════════════════════════
-   BUILD SIDEBAR FILTERS
+   BUILD ALL SIDEBAR FILTERS
 ════════════════════════════════════════ */
 function buildFilters(data) {
 
+  const fill = (listEl, values, key, countFn) => {
+    [...new Set(values)].filter(Boolean).sort().forEach(v => {
+      listEl.appendChild(makeCheckbox(key, v, v, countFn(v)));
+    });
+  };
+
   // Resource Type
-  [...new Set(data.map(d => d.type))].sort().forEach(t => {
-    const count = data.filter(d => d.type === t).length;
-    typeListEl.appendChild(makeCheckbox('type', t, t, count));
-  });
+  fill($('typeList'),    data.map(d => d.type),                           'type',
+    v => data.filter(d => d.type === v).length);
 
-  // Category (multi-value — count records that include this category)
-  [...new Set(data.flatMap(d => d.categories))].sort().forEach(c => {
-    const count = data.filter(d => d.categories.includes(c)).length;
-    catListEl.appendChild(makeCheckbox('category', c, c, count));
-  });
+  // Category
+  fill($('catList'),     data.flatMap(d => d.categories),                 'category',
+    v => data.filter(d => d.categories.includes(v)).length);
 
-  // Subcategory (multi-value)
-  [...new Set(data.flatMap(d => d.subcategories))].sort().forEach(s => {
-    const count = data.filter(d => d.subcategories.includes(s)).length;
-    subListEl.appendChild(makeCheckbox('subcategory', s, s, count));
-  });
+  // Subcategory
+  fill($('subList'),     data.flatMap(d => d.subcategories),              'subcategory',
+    v => data.filter(d => d.subcategories.includes(v)).length);
 
-  // Era
+  // Era (auto-derived)
   ERAS.forEach(era => {
-    const count = data.filter(d => getEra(d.year) === era.label).length;
-    if (count > 0) eraListEl.appendChild(makeCheckbox('era', era.label, era.label, count));
+    const count = data.filter(d => getEra(d) === era.label).length;
+    if (count > 0) $('eraList').appendChild(makeCheckbox('era', era.label, era.label, count));
   });
+
+  // Dynasty
+  fill($('dynastyList'), data.map(d => d.dynasty).filter(Boolean),        'dynasty',
+    v => data.filter(d => d.dynasty === v).length);
+
+  // Region
+  fill($('regionList'),  data.flatMap(d => d.region || []),               'region',
+    v => data.filter(d => (d.region || []).includes(v)).length);
+
+  // Source Type
+  fill($('srcTypeList'), data.map(d => d.source_type).filter(Boolean),    'source_type',
+    v => data.filter(d => d.source_type === v).length);
+
+  // Language (primary + all alternate URL languages)
+  const allLangs = data.flatMap(d => [
+    d.language,
+    ...(d.alternate_urls || []).map(a => a.language)
+  ]);
+  fill($('langList'), allLangs, 'language',
+    v => data.filter(d => {
+      const langs = [d.language, ...(d.alternate_urls||[]).map(a=>a.language)];
+      return langs.includes(v);
+    }).length);
+
+  // File Format (primary + alternate formats)
+  const allFormats = data.flatMap(d => [
+    d.file_format,
+    ...(d.alternate_urls || []).map(a => a.format)
+  ]);
+  fill($('formatList'), allFormats, 'file_format',
+    v => data.filter(d => {
+      const fmts = [d.file_format, ...(d.alternate_urls||[]).map(a=>a.format)];
+      return fmts.includes(v);
+    }).length);
 
   // Tags
   [...new Set(data.flatMap(d => d.tags))].sort().forEach(t => {
-    const count = data.filter(d => d.tags.includes(t)).length;
-    tagListEl.appendChild(makeCheckbox('tag', t, t, count));
+    $('tagList').appendChild(makeCheckbox('tag', t, t, data.filter(d=>d.tags.includes(t)).length));
   });
 
-  // Language (primary + alternate combined)
-  const allLangs = [...new Set(data.flatMap(d => {
-    const langs = [d.language];
-    if (d.alternate_urls) d.alternate_urls.forEach(a => langs.push(a.language));
-    return langs.filter(Boolean);
-  }))].sort();
-
-  allLangs.forEach(l => {
-    const count = data.filter(d => {
-      const langs = [d.language, ...(d.alternate_urls || []).map(a => a.language)];
-      return langs.includes(l);
-    }).length;
-    langListEl.appendChild(makeCheckbox('language', l, l, count));
-  });
-
-  // Collapsible init
-  initCollapsible('fl-type',  true);
-  initCollapsible('fl-cat',   true);
-  initCollapsible('fl-sub',   true);
-  initCollapsible('fl-era',   true);
-  initCollapsible('fl-lang',  true);
-  initCollapsible('fl-tags',  false); // collapsed by default (long list)
+  // Init all collapsibles
+  [
+    ['fl-type',    true],
+    ['fl-cat',     true],
+    ['fl-sub',     false],
+    ['fl-era',     true],
+    ['fl-dynasty', false],
+    ['fl-region',  false],
+    ['fl-srctype', false],
+    ['fl-lang',    false],
+    ['fl-format',  false],
+    ['fl-tags',    false],
+  ].forEach(([id, open]) => initCollapsible(id, open));
 }
 
 /* ── Checkbox factory ── */
@@ -149,32 +185,30 @@ function makeCheckbox(filterKey, value, label, count) {
   cb.dataset.filterKey = filterKey;
 
   cb.addEventListener('change', () => {
-    const set = getSetForKey(filterKey);
+    const set = getSet(filterKey);
     cb.checked ? set.add(value) : set.delete(value);
     currentPage = 1;
     render();
-    renderActiveChips();
+    renderChips();
   });
 
   const text = document.createElement('span');
   text.textContent = label;
-
   const cnt = document.createElement('span');
-  cnt.className   = 'checkbox-count';
+  cnt.className = 'checkbox-count';
   cnt.textContent = count;
 
-  wrap.appendChild(cb);
-  wrap.appendChild(text);
-  wrap.appendChild(cnt);
+  wrap.appendChild(cb); wrap.appendChild(text); wrap.appendChild(cnt);
   return wrap;
 }
 
-function getSetForKey(key) {
-  const map = {
-    type: 'types', category: 'categories', subcategory: 'subcategories',
-    era: 'eras', tag: 'tags', language: 'languages'
-  };
-  return activeFilters[map[key]];
+function getSet(key) {
+  return ({
+    type: AF.types, category: AF.categories, subcategory: AF.subcategories,
+    era: AF.eras, dynasty: AF.dynasties, region: AF.regions,
+    source_type: AF.sourceTypes, language: AF.languages,
+    file_format: AF.formats, tag: AF.tags
+  })[key];
 }
 
 function initCollapsible(bodyId, open = true) {
@@ -193,101 +227,81 @@ function initCollapsible(bodyId, open = true) {
 /* ════════════════════════════════════════
    ACTIVE FILTER CHIPS
 ════════════════════════════════════════ */
-function renderActiveChips() {
+function renderChips() {
   activeFiltersEl.innerHTML = '';
-
-  const addChip = (label, onRemove) => {
+  const add = (label, key, val) => {
     const chip = document.createElement('div');
     chip.className = 'active-chip';
-    chip.innerHTML = `<span>${label}</span><button title="Remove">✕</button>`;
-    chip.querySelector('button').addEventListener('click', onRemove);
+    chip.innerHTML = `<span>${label}</span><button>✕</button>`;
+    chip.querySelector('button').addEventListener('click', () => {
+      getSet(key).delete(val);
+      document.querySelectorAll(`input[data-filter-key="${key}"]`)
+        .forEach(cb => { if (cb.value === val) cb.checked = false; });
+      currentPage = 1; render(); renderChips();
+    });
     activeFiltersEl.appendChild(chip);
   };
 
-  activeFilters.types.forEach(v         => addChip(v,        () => removeFilter('type',        v)));
-  activeFilters.categories.forEach(v    => addChip(v,        () => removeFilter('category',    v)));
-  activeFilters.subcategories.forEach(v => addChip(v,        () => removeFilter('subcategory', v)));
-  activeFilters.eras.forEach(v          => addChip(v,        () => removeFilter('era',         v)));
-  activeFilters.languages.forEach(v     => addChip(`🌐 ${v}`,() => removeFilter('language',    v)));
-  activeFilters.tags.forEach(v          => addChip(`#${v}`,  () => removeFilter('tag',         v)));
-}
-
-function removeFilter(key, value) {
-  getSetForKey(key).delete(value);
-  document.querySelectorAll(`input[data-filter-key="${key}"]`).forEach(cb => {
-    if (cb.value === value) cb.checked = false;
-  });
-  currentPage = 1;
-  render();
-  renderActiveChips();
+  AF.types.forEach(v        => add(v,           'type',        v));
+  AF.categories.forEach(v   => add(v,           'category',    v));
+  AF.subcategories.forEach(v=> add(v,           'subcategory', v));
+  AF.eras.forEach(v         => add(v,           'era',         v));
+  AF.dynasties.forEach(v    => add(`⚔ ${v}`,    'dynasty',     v));
+  AF.regions.forEach(v      => add(`📍 ${v}`,   'region',      v));
+  AF.sourceTypes.forEach(v  => add(v,           'source_type', v));
+  AF.languages.forEach(v    => add(`🌐 ${v}`,   'language',    v));
+  AF.formats.forEach(v      => add(v,           'file_format', v));
+  AF.tags.forEach(v         => add(`#${v}`,     'tag',         v));
 }
 
 /* ════════════════════════════════════════
-   FILTERING + SORTING
+   FILTERING
 ════════════════════════════════════════ */
 function isFiltered() {
-  return (
-    activeFilters.search ||
-    activeFilters.types.size ||
-    activeFilters.categories.size ||
-    activeFilters.subcategories.size ||
-    activeFilters.eras.size ||
-    activeFilters.tags.size ||
-    activeFilters.languages.size
-  );
+  return AF.search || AF.types.size || AF.categories.size || AF.subcategories.size ||
+    AF.eras.size || AF.dynasties.size || AF.regions.size || AF.sourceTypes.size ||
+    AF.languages.size || AF.formats.size || AF.tags.size;
 }
 
 function applyFilters(data) {
-  const q = activeFilters.search.toLowerCase();
+  const q = AF.search.toLowerCase();
 
   return data.filter(item => {
 
-    // ── Text search ──
+    /* ── Text search across ALL fields ── */
     if (q) {
       const hay = [
-        item.title,
-        item.description,
-        ...item.categories,
-        ...item.subcategories,
-        ...item.tags,
-        item.language     || '',
-        item.author       || '',
-        item.source       || '',
-        ...(item.alternate_urls || []).map(a => a.language),
-        ...(item.alternate_urls || []).map(a => a.label),
+        item.title, item.description,
+        ...(item.categories || []), ...(item.subcategories || []),
+        ...(item.tags || []), ...(item.keywords || []), ...(item.themes_covered || []),
+        item.dynasty || '', item.subject || '', item.paper || '', item.module_id || '',
+        ...(item.region || []),
+        item.source || '', item.source_type || '', item.language || '',
+        item.file_format || '', item.period?.era || '',
+        ...(item.authors || []).flatMap(a => [a.name, a.affiliation]),
+        ...(item.alternate_urls || []).flatMap(a => [a.label, a.language, a.format]),
       ].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
     }
 
-    // ── Type ──
-    if (activeFilters.types.size && !activeFilters.types.has(item.type)) return false;
+    /* ── Checkbox filters — OR within same filter, all filters must pass ── */
+    if (AF.types.size       && !AF.types.has(item.type))                                   return false;
+    if (AF.categories.size  && ![...AF.categories].some(c => item.categories.includes(c))) return false;
+    if (AF.subcategories.size && ![...AF.subcategories].some(s => item.subcategories.includes(s))) return false;
+    if (AF.eras.size        && !AF.eras.has(getEra(item)))                                 return false;
+    if (AF.dynasties.size   && !AF.dynasties.has(item.dynasty))                            return false;
+    if (AF.regions.size     && ![...AF.regions].some(r => (item.region||[]).includes(r)))  return false;
+    if (AF.sourceTypes.size && !AF.sourceTypes.has(item.source_type))                      return false;
 
-    // ── Category (ANY selected category must match at least one of item's categories) ──
-    if (activeFilters.categories.size) {
-      const match = [...activeFilters.categories].some(c => item.categories.includes(c));
-      if (!match) return false;
+    if (AF.languages.size) {
+      const langs = [item.language, ...(item.alternate_urls||[]).map(a=>a.language)];
+      if (![...AF.languages].some(l => langs.includes(l))) return false;
     }
-
-    // ── Subcategory (ANY selected subcategory must match at least one of item's subcategories) ──
-    if (activeFilters.subcategories.size) {
-      const match = [...activeFilters.subcategories].some(s => item.subcategories.includes(s));
-      if (!match) return false;
+    if (AF.formats.size) {
+      const fmts = [item.file_format, ...(item.alternate_urls||[]).map(a=>a.format)];
+      if (![...AF.formats].some(f => fmts.includes(f))) return false;
     }
-
-    // ── Era ──
-    if (activeFilters.eras.size && !activeFilters.eras.has(getEra(item.year))) return false;
-
-    // ── Tags (ALL selected tags must be present) ──
-    if (activeFilters.tags.size) {
-      if (![...activeFilters.tags].every(t => item.tags.includes(t))) return false;
-    }
-
-    // ── Language (match primary OR any alternate URL language) ──
-    if (activeFilters.languages.size) {
-      const itemLangs = [item.language, ...(item.alternate_urls || []).map(a => a.language)];
-      const match = [...activeFilters.languages].some(l => itemLangs.includes(l));
-      if (!match) return false;
-    }
+    if (AF.tags.size && ![...AF.tags].every(t => item.tags.includes(t))) return false;
 
     return true;
   });
@@ -295,9 +309,10 @@ function applyFilters(data) {
 
 function applySort(data) {
   const s = [...data];
+  const yr = item => item.period?.start_year ?? 0;
   switch (sortMode) {
-    case 'year-asc':   return s.sort((a, b) => a.year - b.year);
-    case 'year-desc':  return s.sort((a, b) => b.year - a.year);
+    case 'year-asc':   return s.sort((a, b) => yr(a) - yr(b));
+    case 'year-desc':  return s.sort((a, b) => yr(b) - yr(a));
     case 'title-asc':  return s.sort((a, b) => a.title.localeCompare(b.title));
     case 'title-desc': return s.sort((a, b) => b.title.localeCompare(a.title));
     default:           return s;
@@ -312,7 +327,7 @@ function render() {
 }
 
 /* ════════════════════════════════════════
-   CATEGORY ROW VIEW (default, no filters)
+   CATEGORY ROW VIEW
 ════════════════════════════════════════ */
 function showCategoryView() {
   flatView.style.display     = 'none';
@@ -322,24 +337,20 @@ function showCategoryView() {
   resultsLabel.textContent = 'Browse Archive';
   resultsCount.textContent = `${allData.length} records`;
 
-  // Collect all unique main categories preserving sort
   const mainCats = [...new Set(allData.flatMap(d => d.categories))].sort();
 
   mainCats.forEach(cat => {
-    // Items that have this category
     const catItems = applySort(allData.filter(d => d.categories.includes(cat)));
     if (!catItems.length) return;
 
-    // All subcategories that appear in this category's items
     const subCats = [...new Set(catItems.flatMap(d => d.subcategories))];
 
     const block = document.createElement('div');
     block.className = 'main-cat';
-
     block.innerHTML = `
       <div class="main-cat-head">
         <span class="main-cat-title">${cat}</span>
-        <span class="main-cat-badge">${catItems.length} record${catItems.length !== 1 ? 's' : ''}</span>
+        <span class="main-cat-badge">${catItems.length} record${catItems.length !== 1 ? 's':''}</span>
         <span class="main-cat-line"></span>
       </div>
       <div class="sub-rows"></div>`;
@@ -347,7 +358,6 @@ function showCategoryView() {
     const subRowsWrap = block.querySelector('.sub-rows');
 
     subCats.forEach(sub => {
-      // Items in this category that also have this subcategory
       const subItems = catItems.filter(d => d.subcategories.includes(sub));
       const showMore = subItems.length > PREVIEW_PER_SUBCAT;
       const preview  = subItems.slice(0, PREVIEW_PER_SUBCAT);
@@ -355,29 +365,26 @@ function showCategoryView() {
 
       const subRow = document.createElement('div');
       subRow.className = 'sub-row';
-
       subRow.innerHTML = `
         <div class="sub-row-head">
           <div class="sub-row-left">
             <span class="sub-row-title">${sub}</span>
-            <span class="sub-row-meta">${subItems.length} record${subItems.length !== 1 ? 's' : ''}</span>
+            <span class="sub-row-meta">${subItems.length} record${subItems.length !== 1 ? 's':''}</span>
           </div>
           ${showMore ? `<button class="view-all-btn" data-expanded="false">View All →</button>` : ''}
         </div>
         <div class="card-strip">
           ${preview.map((item, i) => cardHTML(item, i * 0.05, false)).join('')}
-          ${rest.map((item, i)    => cardHTML(item, i * 0.05, false).replace('class="card"', 'class="card hidden"')).join('')}
+          ${rest.map((item, i)    => cardHTML(item, i * 0.05, false).replace('class="card"','class="card hidden"')).join('')}
         </div>`;
 
       const btn = subRow.querySelector('.view-all-btn');
-      if (btn) {
-        btn.addEventListener('click', () => {
-          const expanded = btn.dataset.expanded === 'true';
-          subRow.querySelectorAll('.card.hidden').forEach(c => c.classList.toggle('hidden', expanded));
-          btn.dataset.expanded = String(!expanded);
-          btn.textContent      = expanded ? 'View All →' : 'Show Less ↑';
-        });
-      }
+      if (btn) btn.addEventListener('click', () => {
+        const exp = btn.dataset.expanded === 'true';
+        subRow.querySelectorAll('.card.hidden').forEach(c => c.classList.toggle('hidden', exp));
+        btn.dataset.expanded = String(!exp);
+        btn.textContent = exp ? 'View All →' : 'Show Less ↑';
+      });
 
       subRowsWrap.appendChild(subRow);
     });
@@ -387,7 +394,7 @@ function showCategoryView() {
 }
 
 /* ════════════════════════════════════════
-   FLAT PAGINATED VIEW (filters/search active)
+   FLAT PAGINATED VIEW
 ════════════════════════════════════════ */
 function showFlatView() {
   categoryView.style.display = 'none';
@@ -396,23 +403,18 @@ function showFlatView() {
   const filtered   = applySort(applyFilters(allData));
   const total      = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / perPage));
-
   if (currentPage > totalPages) currentPage = totalPages;
 
-  const start     = (currentPage - 1) * perPage;
-  const pageItems = filtered.slice(start, start + perPage);
+  const pageItems = filtered.slice((currentPage - 1) * perPage, currentPage * perPage);
 
-  // Results label
   const parts = [];
-  if (activeFilters.search)            parts.push(`"${activeFilters.search}"`);
-  if (activeFilters.categories.size)   parts.push([...activeFilters.categories].join(', '));
+  if (AF.search)           parts.push(`"${AF.search}"`);
+  if (AF.categories.size)  parts.push([...AF.categories].join(', '));
   resultsLabel.textContent = parts.length ? `Results for ${parts.join(' · ')}` : 'Filtered Results';
-  resultsCount.textContent = `${total} record${total !== 1 ? 's' : ''} · Page ${currentPage} of ${totalPages}`;
+  resultsCount.textContent = `${total} record${total !== 1 ? 's':''} · Page ${currentPage} of ${totalPages}`;
 
-  // Cards
-  if (!pageItems.length) {
-    flatGrid.innerHTML = `
-      <div class="empty-state">
+  flatGrid.innerHTML = !pageItems.length
+    ? `<div class="empty-state">
         <div class="empty-icon">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
@@ -420,10 +422,8 @@ function showFlatView() {
         </div>
         <h3>No records found</h3>
         <p>Try adjusting your filters or search query.</p>
-      </div>`;
-  } else {
-    flatGrid.innerHTML = pageItems.map((item, i) => cardHTML(item, i * 0.03, true)).join('');
-  }
+       </div>`
+    : pageItems.map((item, i) => cardHTML(item, i * 0.03, true)).join('');
 
   renderPagination(totalPages);
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -436,155 +436,149 @@ function renderPagination(totalPages) {
   paginationEl.innerHTML = '';
   if (totalPages <= 1) return;
 
-  const makeBtn = (label, page, disabled = false, active = false) => {
-    const btn = document.createElement('button');
-    btn.className = 'page-btn' + (active ? ' active' : '');
-    btn.textContent = label;
-    btn.disabled = disabled;
-    btn.addEventListener('click', () => { currentPage = page; showFlatView(); });
-    return btn;
+  const btn = (label, page, disabled, active) => {
+    const b = document.createElement('button');
+    b.className = 'page-btn' + (active ? ' active' : '');
+    b.textContent = label; b.disabled = disabled;
+    b.addEventListener('click', () => { currentPage = page; showFlatView(); });
+    return b;
   };
+  const dots = () => { const s = document.createElement('span'); s.className='page-dots'; s.textContent='…'; return s; };
 
-  const makeDots = () => {
-    const s = document.createElement('span');
-    s.className = 'page-dots';
-    s.textContent = '…';
-    return s;
-  };
-
-  paginationEl.appendChild(makeBtn('← Prev', currentPage - 1, currentPage === 1));
+  paginationEl.appendChild(btn('← Prev', currentPage-1, currentPage===1, false));
 
   const pages = [];
-  if (totalPages <= 7) {
-    for (let i = 1; i <= totalPages; i++) pages.push(i);
-  } else {
+  if (totalPages <= 7) { for (let i=1;i<=totalPages;i++) pages.push(i); }
+  else {
     pages.push(1);
     if (currentPage > 3) pages.push('…');
-    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
-    if (currentPage < totalPages - 2) pages.push('…');
+    for (let i=Math.max(2,currentPage-1); i<=Math.min(totalPages-1,currentPage+1); i++) pages.push(i);
+    if (currentPage < totalPages-2) pages.push('…');
     pages.push(totalPages);
   }
-
-  pages.forEach(p => {
-    if (p === '…') paginationEl.appendChild(makeDots());
-    else paginationEl.appendChild(makeBtn(p, p, false, p === currentPage));
-  });
-
-  paginationEl.appendChild(makeBtn('Next →', currentPage + 1, currentPage === totalPages));
+  pages.forEach(p => paginationEl.appendChild(p==='…' ? dots() : btn(p, p, false, p===currentPage)));
+  paginationEl.appendChild(btn('Next →', currentPage+1, currentPage===totalPages, false));
 }
 
 /* ════════════════════════════════════════
    CARD HTML
 ════════════════════════════════════════ */
-function yearLabel(y) { return y < 0 ? `${Math.abs(y)} BCE` : `${y} CE`; }
-
 function cardHTML(item, delay = 0, showBreadcrumb = false) {
-  const meta = [item.author, item.source].filter(Boolean).join(' · ');
+  const period  = periodLabel(item);
+  const authors = (item.authors || []).map(a => a.name).join(', ');
+  const meta    = [authors, item.source].filter(Boolean).join(' · ');
 
-  // Alternate URLs — show as compact links if present
-  const altLinks = (item.alternate_urls || []).filter(a => a.url && a.label);
-  const altHTML  = altLinks.length
-    ? `<div class="card-alt-urls">
-        <span class="card-alt-label">Also available in:</span>
-        ${altLinks.map(a => `<a class="card-alt-link" href="${a.url}" target="_blank" rel="noopener" title="${a.language}">${a.label}</a>`).join('')}
-       </div>`
-    : '';
+  /* ── Breadcrumb: categories + subcategories ── */
+  const breadcrumb = showBreadcrumb ? `
+    <div class="card-breadcrumb-wrap">
+      ${item.categories.map(c=>`<span class="card-breadcrumb">${c}</span>`).join('')}
+      ${item.subcategories.map(s=>`<span class="card-breadcrumb card-breadcrumb-sub">› ${s}</span>`).join('')}
+    </div>` : '';
 
-  // Breadcrumb: all categories × subcategories
-  const breadcrumb = showBreadcrumb
-    ? `<div class="card-breadcrumb-wrap">
-        ${item.categories.map(c => `<span class="card-breadcrumb">${c}</span>`).join('')}
-        ${item.subcategories.map(s => `<span class="card-breadcrumb card-breadcrumb-sub">› ${s}</span>`).join('')}
-       </div>`
-    : '';
+  /* ── Metadata pills row ── */
+  const pills = [
+    item.dynasty   ? `<span class="card-pill pill-dynasty">⚔ ${item.dynasty}</span>` : '',
+    item.period?.era ? `<span class="card-pill pill-era">${item.period.era}</span>` : '',
+    ...(item.region||[]).slice(0,2).map(r=>`<span class="card-pill pill-region">📍 ${r}</span>`),
+    item.source_type ? `<span class="card-pill pill-src">${item.source_type}</span>` : '',
+    item.document_pages ? `<span class="card-pill pill-pages">${item.document_pages} pp</span>` : '',
+  ].filter(Boolean).join('');
 
-  // Language badge
-  const langBadge = item.language
-    ? `<span class="card-lang">${item.language}</span>`
-    : '';
+  /* ── Alternate URLs ── */
+  const altHTML = (item.alternate_urls || []).length ? `
+    <div class="card-alt-urls">
+      <span class="card-alt-label">Also available:</span>
+      <div class="card-alt-links">
+        ${item.alternate_urls.map(a => `
+          <a class="card-alt-link" href="${a.url}" target="_blank" rel="noopener">
+            <span class="alt-lang">${a.language}</span>
+            <span class="alt-label">${a.label}</span>
+            <span class="alt-fmt">${a.format || ''}</span>
+          </a>`).join('')}
+      </div>
+    </div>` : '';
+
+  /* ── Paper / module info ── */
+  const paperInfo = item.paper ? `
+    <div class="card-paper">
+      ${item.paper}${item.module_id ? ` <span class="card-module">${item.module_id}</span>` : ''}
+    </div>` : '';
 
   return `
     <div class="card" style="animation-delay:${delay}s">
+
       <div class="card-top">
         <span class="card-type-badge">${item.type}</span>
         <div class="card-top-right">
-          ${langBadge}
-          <span class="card-year">${yearLabel(item.year)}</span>
+          ${item.language ? `<span class="card-lang">${item.language}</span>` : ''}
+          ${item.file_format ? `<span class="card-fmt">${item.file_format}</span>` : ''}
+          ${period ? `<span class="card-year">${period}</span>` : ''}
         </div>
       </div>
+
       <h3>${item.title}</h3>
       <p class="card-desc">${item.description}</p>
-      ${meta ? `<div class="card-meta">${meta}</div>` : ''}
+
+      ${meta      ? `<div class="card-meta">${meta}</div>` : ''}
+      ${paperInfo}
       ${breadcrumb}
-      <div class="card-tags">${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+
+      ${pills     ? `<div class="card-pills">${pills}</div>` : ''}
+
+      <div class="card-tags">
+        ${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+      </div>
+
       ${altHTML}
-      <a class="card-link" href="${item.url}" target="_blank" rel="noopener">Open Resource →</a>
+
+      <a class="card-link" href="${item.url}" target="_blank" rel="noopener">
+        Open Resource →
+      </a>
     </div>`;
 }
 
 /* ════════════════════════════════════════
-   BIND EVENTS
+   EVENTS
 ════════════════════════════════════════ */
 function bindEvents() {
-
-  // Search
   searchEl.addEventListener('input', () => {
-    activeFilters.search = searchEl.value.trim();
-    searchClear.classList.toggle('visible', !!activeFilters.search);
-    currentPage = 1;
-    render();
-    renderActiveChips();
+    AF.search = searchEl.value.trim();
+    searchClear.classList.toggle('visible', !!AF.search);
+    currentPage = 1; render(); renderChips();
   });
 
   searchClear.addEventListener('click', () => {
-    searchEl.value       = '';
-    activeFilters.search = '';
+    searchEl.value = ''; AF.search = '';
     searchClear.classList.remove('visible');
-    currentPage = 1;
-    render();
-    renderActiveChips();
+    currentPage = 1; render(); renderChips();
   });
 
   clearAllBtn.addEventListener('click', clearAll);
 
   perPageSelect.addEventListener('change', () => {
-    perPage     = parseInt(perPageSelect.value);
-    currentPage = 1;
-    render();
+    perPage = parseInt(perPageSelect.value); currentPage = 1; render();
   });
 
   sortSelect.addEventListener('change', () => {
-    sortMode    = sortSelect.value;
-    currentPage = 1;
-    render();
+    sortMode = sortSelect.value; currentPage = 1; render();
   });
 
-  // Tag search within sidebar
   tagSearchEl.addEventListener('input', () => {
     const q = tagSearchEl.value.toLowerCase();
-    tagListEl.querySelectorAll('label').forEach(label => {
-      const text = label.querySelector('span')?.textContent.toLowerCase() ?? '';
-      label.style.display = text.includes(q) ? '' : 'none';
+    $('tagList').querySelectorAll('label').forEach(l => {
+      l.style.display = l.querySelector('span')?.textContent.toLowerCase().includes(q) ? '' : 'none';
     });
   });
 }
 
 function clearAll() {
-  activeFilters.search = '';
-  activeFilters.types.clear();
-  activeFilters.categories.clear();
-  activeFilters.subcategories.clear();
-  activeFilters.eras.clear();
-  activeFilters.tags.clear();
-  activeFilters.languages.clear();
+  AF.search = ''; AF.types.clear(); AF.categories.clear(); AF.subcategories.clear();
+  AF.eras.clear(); AF.dynasties.clear(); AF.regions.clear(); AF.sourceTypes.clear();
+  AF.languages.clear(); AF.formats.clear(); AF.tags.clear();
   currentPage = 1;
-
-  searchEl.value = '';
-  searchClear.classList.remove('visible');
-  tagSearchEl.value = '';
-  tagListEl.querySelectorAll('label').forEach(l => l.style.display = '');
+  searchEl.value = ''; searchClear.classList.remove('visible');
+  $('tagSearch').value = '';
+  $('tagList').querySelectorAll('label').forEach(l => l.style.display = '');
   document.querySelectorAll('.checkbox-list input[type="checkbox"]').forEach(cb => cb.checked = false);
-
-  render();
-  renderActiveChips();
+  render(); renderChips();
 }
